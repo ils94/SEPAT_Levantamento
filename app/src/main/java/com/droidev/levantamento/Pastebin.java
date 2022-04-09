@@ -143,7 +143,14 @@ public class Pastebin {
                         context.startActivity(myIntent);
 
                     } catch (IOException urlException) {
-                        urlException.printStackTrace();
+
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                Toast.makeText(context, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
             }
@@ -204,6 +211,8 @@ public class Pastebin {
                     tinyDB.putString("login", loginString);
                     tinyDB.putString("senha", senhaString);
                     tinyDB.putString("devKey", devKeyString);
+
+                    Toast.makeText(context, "Conta salva", Toast.LENGTH_SHORT).show();
 
                     dialog.dismiss();
 
