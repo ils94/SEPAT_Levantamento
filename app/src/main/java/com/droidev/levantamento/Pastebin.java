@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 public class Pastebin {
 
-    public String gerarChave(String login, String senha, String dev_key) {
+    public String gerarChave(String login, String senha, String devKey) {
 
         String result = "";
 
@@ -43,7 +43,7 @@ public class Pastebin {
             http.setDoInput(true);
             Map<String, String> arguments = new HashMap<>();
 
-            arguments.put("api_dev_key", dev_key);
+            arguments.put("api_dev_key", devKey);
             arguments.put("api_user_name", login);
             arguments.put("api_user_password", senha);
 
@@ -84,9 +84,9 @@ public class Pastebin {
 
                 String login = tinyDB.getString("login");
                 String senha = tinyDB.getString("senha");
-                String dev_key = tinyDB.getString("devKey");
+                String devKey = tinyDB.getString("devKey");
 
-                if (login.isEmpty() || senha.isEmpty() || dev_key.isEmpty()) {
+                if (login.isEmpty() || senha.isEmpty() || devKey.isEmpty()) {
 
                     activity.runOnUiThread(new Runnable() {
                         @Override
@@ -100,7 +100,7 @@ public class Pastebin {
 
                     try {
 
-                        String user_key = gerarChave(login, senha, dev_key);
+                        String userKey = gerarChave(login, senha, devKey);
 
                         URL url = new URL("https://pastebin.com/api/api_post.php");
                         URLConnection con = url.openConnection();
@@ -110,8 +110,8 @@ public class Pastebin {
                         http.setDoInput(true);
                         Map<String, String> arguments = new HashMap<>();
 
-                        arguments.put("api_dev_key", dev_key);
-                        arguments.put("api_user_key", user_key);
+                        arguments.put("api_dev_key", devKey);
+                        arguments.put("api_user_key", userKey);
                         arguments.put("api_option", "paste");
                         arguments.put("api_paste_code", content);
                         arguments.put("api_paste_expire_date", "10M");
@@ -135,6 +135,8 @@ public class Pastebin {
                         InputStream is = http.getInputStream();
 
                         String result = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+
+                        System.out.println(result);
 
                         Intent myIntent = new Intent(context, QRCodeActivity.class);
                         myIntent.putExtra("content", result);

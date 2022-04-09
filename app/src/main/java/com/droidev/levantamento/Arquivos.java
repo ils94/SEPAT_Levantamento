@@ -25,7 +25,7 @@ public class Arquivos {
 
     private void exportarDados(Context context, String dados, String extensao) {
 
-        caixaDialogo.dialogoSimplesComView(context, "Enviar relatório", "Nome do arquivo:", "Exemplo: Deposito 2 / SAMS UL 580", "Enviar", "Cancelar", InputType.TYPE_CLASS_TEXT, false, new Utils.onButtonPressed() {
+        caixaDialogo.dialogoSimplesComView(context, "Enviar relatório", "Nome do arquivo:", "Exemplo: Deposito 2 / SAMS UL 580", "Enviar", "Cancelar", InputType.TYPE_CLASS_TEXT, false, new CaixaDialogo.onButtonPressed() {
             @Override
             public void buttonPressed(String i) {
 
