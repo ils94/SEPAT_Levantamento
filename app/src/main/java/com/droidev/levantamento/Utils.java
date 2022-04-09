@@ -164,7 +164,7 @@ public class Utils {
         }
     }
 
-    public String pegarData() {
+    public String dataHora() {
 
         String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 

@@ -110,7 +110,7 @@ public class Arquivos {
             }
         }
 
-        String documento = utils.pegarData() + "\n\nTOTAL DE BENS NA RELAÇÃO: " + listaRelacao.length + " ITENS\nTOTAL DE BENS LOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: " + quantidadeForaRelacao + " ITENS\nTOTAL DE BENS NÃO LOCALIZADOS FISICAMENTE: " + j + " ITENS\nSOMA TOTAL (RELAÇÃO + FISICAMENTE LOCALIZADOS QUE NÃO CONSTA NA RELAÇÃO): " + (listaRelacao.length + quantidadeForaRelacao) + " ITENS\n\nLOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: " + quantidadeForaRelacao + " ITENS\n\n" + editText.getText().toString() + "\n" + "BENS NÃO LOCALIZADOS FISICAMENTE: " + j + " ITENS\n\n" + listaNaoAchados + "\n\n" + "RELAÇÃO: " + listaRelacao.length + " ITENS\n\n" + textView.getText().toString();
+        String documento = utils.dataHora() + "\n\nTOTAL DE BENS NA RELAÇÃO: " + listaRelacao.length + " ITENS\nTOTAL DE BENS LOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: " + quantidadeForaRelacao + " ITENS\nTOTAL DE BENS NÃO LOCALIZADOS FISICAMENTE: " + j + " ITENS\nSOMA TOTAL (RELAÇÃO + FISICAMENTE LOCALIZADOS QUE NÃO CONSTA NA RELAÇÃO): " + (listaRelacao.length + quantidadeForaRelacao) + " ITENS\n\nLOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: " + quantidadeForaRelacao + " ITENS\n\n" + editText.getText().toString() + "\n" + "BENS NÃO LOCALIZADOS FISICAMENTE: " + j + " ITENS\n\n" + listaNaoAchados + "\n\n" + "RELAÇÃO: " + listaRelacao.length + " ITENS\n\n" + textView.getText().toString();
 
         exportarDados(context, documento, ".txt");
 
