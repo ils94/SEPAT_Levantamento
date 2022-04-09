@@ -285,6 +285,12 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
 
+            case R.id.teste:
+
+                utilities.connectPastebin();
+
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
