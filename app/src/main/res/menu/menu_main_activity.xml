@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/manual"
+        app:showAsAction="always"
+        android:icon="@drawable/insert"
+        android:title="Inserir Manualmente" />
+
+    <item
+        android:id="@+id/escanear"
+        app:showAsAction="always"
+        android:icon="@drawable/scanner"
+        android:title="Escanear" />
+
+    <item
+        android:id="@+id/desfazer"
+        android:title="Desfazer"/>
+
+    <item
+        android:id="@+id/refazer"
+        android:title="Refazer"/>
+
+    <item android:title="Arquivo...">
+
+        <menu>
+
+            <item
+                android:id="@+id/gerarRelatorioCompleto"
+                android:title="Gerar Relatório Completo" />
+
+            <item
+                android:id="@+id/gerarForaRelacaoCSV"
+                android:title="Gerar Localizados Fora da Relação" />
+
+            <item
+                android:id="@+id/abrirArquivo"
+                android:title="Abrir Arquivo" />
+
+            <item
+                android:id="@+id/criarJson"
+                android:title="Criar JSON" />
+
+        </menu>
+
+    </item>
+
+    <item android:title="Copiar...">
+
+        <menu>
+
+            <item
+                android:id="@+id/copiarForaRelacao"
+                android:title="Localizados Fora da Relação" />
+
+            <item
+                android:id="@+id/copiarRelacao"
+                android:title="Relação" />
+
+            <item
+                android:id="@+id/copiarAmbos"
+                android:title="Ambos" />
+
+        </menu>
+
+    </item>
+
+    <item android:title="Mais...">
+
+        <menu>
+
+            <item
+                android:id="@+id/naoLocalizados"
+                android:title="Não Localizados" />
+
+            <item
+                android:id="@+id/procurar"
+                android:title="Procurar" />
+
+            <item
+                android:id="@+id/editavel"
+                android:title="Ativar/Desativar Edição" />
+
+            <item
+                android:id="@+id/contarLinhas"
+                android:title="Contar Linhas" />
+
+            <item
+                android:id="@+id/forcarSalvar"
+                android:title="Forçar Salvar" />
+
+        </menu>
+
+    </item>
+
+</menu>
