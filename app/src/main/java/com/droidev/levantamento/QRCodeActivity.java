@@ -22,6 +22,8 @@ public class QRCodeActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.qrcode);
 
+        setTitle("Pastebin QR Code");
+
         try {
 
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();

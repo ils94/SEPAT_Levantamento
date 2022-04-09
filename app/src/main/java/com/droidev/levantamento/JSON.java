@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JSON {
@@ -38,5 +40,18 @@ public class JSON {
         intent.putExtra(Intent.EXTRA_TITLE, nomeArquivo + ".json");
 
         activity.startActivityForResult(intent, CRIAR_JSON);
+    }
+
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
     }
 }

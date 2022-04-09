@@ -342,7 +342,6 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(getBaseContext(), intentResult.getContents() + " já foi escaneado", Toast.LENGTH_SHORT).show();
 
-
                 } else if (intentResult.getContents().contains("pastebin")) {
 
                     caixaDialogo.dialogoSimples(MainActivity.this, "Carregar nova relação", "Carregar uma nova relação do pastebin?", "Sim", "Cancelar", new CaixaDialogo.onButtonPressed() {
@@ -488,6 +487,8 @@ public class MainActivity extends AppCompatActivity {
 
                 nomeArquivo = i.replace(" ", "_").toUpperCase();
 
+                foraDaRelacao.setText("Buscando no pastebin...");
+
                 relacao.setText("Buscando no pastebin...");
 
                 new Thread(new Runnable() {
@@ -500,7 +501,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Document doc = Jsoup.connect(url).get();
 
-                            String text = doc.select("textarea[class=textarea]").text().replace(",", ": ") + "\n";
+                            String text = doc.select("textarea[class=textarea]").text();
 
                             sb.append(text);
 
@@ -508,7 +509,25 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
 
-                                    relacao.setText(sb);
+                                    if (sb.toString().contains("nomeArquivo")) {
+
+                                        try {
+
+                                            JSONObject jsonObject = new JSONObject(String.valueOf(sb));
+
+                                            foraDaRelacao.setText(jsonObject.getString("foraRelacao"));
+
+                                            relacao.setText(jsonObject.getString("relacao"));
+
+                                        } catch (JSONException e) {
+                                            Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+
+                                        foraDaRelacao.setText("");
+                                        relacao.setText("");
+                                        relacao.setText(sb.toString().replace(",", ": ") + "\n");
+                                    }
 
                                     setTitle(nomeArquivo);
 
@@ -521,7 +540,14 @@ public class MainActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
 
-                            relacao.setText(e.toString());
+                            relacao.post(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    relacao.setText(e.toString());
+                                    foraDaRelacao.setText(e.toString());
+                                }
+                            });
                         }
                     }
                 }).start();
