@@ -16,7 +16,12 @@ public class CaixaDialogo {
     private ArrayList<String> historicoBens = new ArrayList<>();
     private ArrayList<String> historicoUL = new ArrayList<>();
 
-    public void naoEncontrado(Context context, String patrimonio, Utils.onButtonPressed onButtonPressed) {
+    interface onButtonPressed {
+
+        void buttonPressed(String i);
+    }
+
+    public void naoEncontrado(Context context, String patrimonio, onButtonPressed onButtonPressed) {
 
         AutoCompleteTextView nome = new AutoCompleteTextView(context);
         nome.setHint("Nome (exemplo: mesa em L)");
@@ -84,7 +89,7 @@ public class CaixaDialogo {
         });
     }
 
-    public void dialogoSimples(Context context, String title, String message, String positive, String negative, Utils.onButtonPressed onButtonPressed) {
+    public void dialogoSimples(Context context, String title, String message, String positive, String negative, onButtonPressed onButtonPressed) {
 
         androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(context)
                 .setCancelable(false)
@@ -107,7 +112,7 @@ public class CaixaDialogo {
         });
     }
 
-    public void dialogoSimplesComView(Context context, String title, String message, String hint, String positive, String negative, int inputType, Boolean adapter, Utils.onButtonPressed onButtonPressed) {
+    public void dialogoSimplesComView(Context context, String title, String message, String hint, String positive, String negative, int inputType, Boolean adapter, onButtonPressed onButtonPressed) {
 
         AutoCompleteTextView autoCompleteTextView = new AutoCompleteTextView(context);
         autoCompleteTextView.setHint(hint);

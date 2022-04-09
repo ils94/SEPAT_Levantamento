@@ -97,11 +97,6 @@ public class Utils {
         intentIntegrator.initiateScan();
     }
 
-    interface onButtonPressed {
-
-        void buttonPressed(String i);
-    }
-
     public void manterNaMemoria(Context context, String content, String file) {
 
         File path = context.getFilesDir();

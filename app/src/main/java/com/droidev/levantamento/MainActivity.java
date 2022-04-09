@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.manual:
 
-                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Modo manual", "Insira o número patrimonial abaixo:", "Exemplo: 012345", "Ok", "Cancelar", InputType.TYPE_CLASS_NUMBER, false, new Utils.onButtonPressed() {
+                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Modo manual", "Insira o número patrimonial abaixo:", "Exemplo: 012345", "Ok", "Cancelar", InputType.TYPE_CLASS_NUMBER, false, new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.abrirArquivo:
 
-                caixaDialogo.dialogoSimples(MainActivity.this, "Abrir novo arquivo", "Abrir um novo arquivo irá apagar tudo da relação atual no App. Deseja continuar?", "Sim", "Não", new Utils.onButtonPressed() {
+                caixaDialogo.dialogoSimples(MainActivity.this, "Abrir novo arquivo", "Abrir um novo arquivo irá apagar tudo da relação atual no App. Deseja continuar?", "Sim", "Não", new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
                         if (i.equals("true")) {
@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.procurar:
 
-                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, new Utils.onButtonPressed() {
+                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.forcarSalvar:
 
-                caixaDialogo.dialogoSimples(MainActivity.this, "Salvar", "Salvar todas as alterações na relação atual?", "Sim", "Não", new Utils.onButtonPressed() {
+                caixaDialogo.dialogoSimples(MainActivity.this, "Salvar", "Salvar todas as alterações na relação atual?", "Sim", "Não", new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
                         if (i.equals("true")) {
@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (intentResult.getContents().contains("pastebin")) {
 
-                    caixaDialogo.dialogoSimples(MainActivity.this, "Carregar nova relação", "Carregar uma nova relação do pastebin?", "Sim", "Cancelar", new Utils.onButtonPressed() {
+                    caixaDialogo.dialogoSimples(MainActivity.this, "Carregar nova relação", "Carregar uma nova relação do pastebin?", "Sim", "Cancelar", new CaixaDialogo.onButtonPressed() {
                         @Override
                         public void buttonPressed(String i) {
 
@@ -482,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void pastebin(String url) {
 
-        caixaDialogo.dialogoSimplesComView(MainActivity.this, "Nome da relação", "Insira o nome da relação abaixo:", "Exemplo: SEPAT", "Ok", "Cancelar", InputType.TYPE_CLASS_TEXT, false, new Utils.onButtonPressed() {
+        caixaDialogo.dialogoSimplesComView(MainActivity.this, "Nome da relação", "Insira o nome da relação abaixo:", "Exemplo: SEPAT", "Ok", "Cancelar", InputType.TYPE_CLASS_TEXT, false, new CaixaDialogo.onButtonPressed() {
             @Override
             public void buttonPressed(String i) {
 
@@ -552,7 +552,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void naoEncontrado(String patrimonio) {
 
-        caixaDialogo.naoEncontrado(MainActivity.this, patrimonio, new Utils.onButtonPressed() {
+        caixaDialogo.naoEncontrado(MainActivity.this, patrimonio, new CaixaDialogo.onButtonPressed() {
             @Override
             public void buttonPressed(String i) {
 
