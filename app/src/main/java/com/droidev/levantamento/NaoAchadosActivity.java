@@ -19,7 +19,8 @@ public class NaoAchadosActivity extends AppCompatActivity {
     ArrayList arrayList;
     String s = "";
     int j = 0;
-    Utilities utilities;
+    Utils utils;
+    CaixaDialogo caixaDialogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,8 @@ public class NaoAchadosActivity extends AppCompatActivity {
 
         setTitle("NÃO LOCALIZADOS");
 
-        utilities = new Utilities();
+        utils = new Utils();
+        caixaDialogo = new CaixaDialogo();
 
         arrayList = new ArrayList<>();
 
@@ -63,17 +65,17 @@ public class NaoAchadosActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.copiarNaoAchados:
 
-                utilities.copiarTexto(NaoAchadosActivity.this, "Bens que faltam checar - " + j + "\n\n" + naoAchados.getText().toString());
+                utils.copiarTexto(NaoAchadosActivity.this, "Bens que faltam checar - " + j + "\n\n" + naoAchados.getText().toString());
 
                 return true;
 
             case R.id.procurarNaoAchados:
 
-                utilities.dialogoSimplesComView(NaoAchadosActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, new Utilities.onButtonPressed() {
+                caixaDialogo.dialogoSimplesComView(NaoAchadosActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, new Utils.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 
-                        utilities.realcarTexto(naoAchados, i.toUpperCase(), naoAchadosTV);
+                        utils.realcarTexto(naoAchados, i.toUpperCase(), naoAchadosTV);
                     }
                 });
 

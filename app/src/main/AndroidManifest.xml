@@ -13,7 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Levantamento">
         <activity
-            android:name=".Scanner"
+            android:name=".QRCodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ScannerActivity"
             android:exported="false" />
         <activity
             android:name=".NaoAchadosActivity"

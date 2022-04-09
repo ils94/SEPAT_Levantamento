@@ -41,7 +41,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView relacao, foraDaRelacaoTV, relacaoTV;
     private EditText foraDaRelacao;
 
-    private Utilities utilities;
+    private Utils utils;
+    private Pastebin pastebin;
+    private JSON json;
+    private Arquivos arquivos;
+    private CaixaDialogo caixaDialogo;
 
     private Boolean ultimoItem = false, voltarItem = false;
 
@@ -55,7 +59,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        utilities = new Utilities();
+        utils = new Utils();
+        pastebin = new Pastebin();
+        json = new JSON();
+        arquivos = new Arquivos();
+        caixaDialogo = new CaixaDialogo();
 
         AppCompatDelegate.setDefaultNightMode(
                 AppCompatDelegate.MODE_NIGHT_YES);
@@ -67,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         relacao.setMovementMethod(new ScrollingMovementMethod());
 
-        nomeArquivo = utilities.recuperarDaMemoria(MainActivity.this, "nome_arquivo.txt");
+        nomeArquivo = utils.recuperarDaMemoria(MainActivity.this, "nome_arquivo.txt");
         if (nomeArquivo.equals("")) {
 
             setTitle("Levantamento");
@@ -76,10 +84,10 @@ public class MainActivity extends AppCompatActivity {
             setTitle(nomeArquivo);
         }
 
-        String content_bens = utilities.recuperarDaMemoria(MainActivity.this, "fora_da_relacao.txt");
+        String content_bens = utils.recuperarDaMemoria(MainActivity.this, "fora_da_relacao.txt");
         foraDaRelacao.setText(content_bens);
 
-        String content_relacao = utilities.recuperarDaMemoria(MainActivity.this, "relacao.txt");
+        String content_relacao = utils.recuperarDaMemoria(MainActivity.this, "relacao.txt");
         relacao.setText(content_relacao);
 
         foraDaRelacao.setFocusableInTouchMode(false);
@@ -155,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.manual:
 
-                utilities.dialogoSimplesComView(MainActivity.this, "Modo manual", "Insira o número patrimonial abaixo:", "Exemplo: 012345", "Ok", "Cancelar", InputType.TYPE_CLASS_NUMBER, false, new Utilities.onButtonPressed() {
+                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Modo manual", "Insira o número patrimonial abaixo:", "Exemplo: 012345", "Ok", "Cancelar", InputType.TYPE_CLASS_NUMBER, false, new Utils.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 
@@ -184,48 +192,48 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.escanear:
 
-                utilities.scanner(MainActivity.this);
+                utils.scanner(MainActivity.this);
 
                 return true;
 
             case R.id.copiarForaRelacao:
 
-                utilities.copiarTexto(MainActivity.this, "LOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO:\n\n" + foraDaRelacao.getText().toString());
+                utils.copiarTexto(MainActivity.this, "LOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO:\n\n" + foraDaRelacao.getText().toString());
 
                 return true;
 
             case R.id.copiarRelacao:
 
-                utilities.copiarTexto(MainActivity.this, "\nRELAÇÃO:\n\n" + relacao.getText().toString());
+                utils.copiarTexto(MainActivity.this, "\nRELAÇÃO:\n\n" + relacao.getText().toString());
 
                 return true;
 
             case R.id.copiarAmbos:
 
-                utilities.copiarTexto(MainActivity.this, "LOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO:\n\n" + foraDaRelacao.getText() + "\nRELAÇÃO:\n\n" + relacao.getText());
+                utils.copiarTexto(MainActivity.this, "LOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO:\n\n" + foraDaRelacao.getText() + "\nRELAÇÃO:\n\n" + relacao.getText());
 
                 return true;
 
             case R.id.gerarRelatorioCompleto:
 
-                utilities.relatorioCompleto(MainActivity.this, relacao, foraDaRelacao);
+                arquivos.relatorioCompleto(MainActivity.this, relacao, foraDaRelacao);
 
                 return true;
 
             case R.id.gerarForaRelacaoCSV:
 
-                utilities.relatorioForaDaRelacaoCSV(MainActivity.this, foraDaRelacao);
+                arquivos.relatorioForaDaRelacaoCSV(MainActivity.this, foraDaRelacao);
 
                 return true;
 
             case R.id.abrirArquivo:
 
-                utilities.dialogoSimples(MainActivity.this, "Abrir novo arquivo", "Abrir um novo arquivo irá apagar tudo da relação atual no App. Deseja continuar?", "Sim", "Não", new Utilities.onButtonPressed() {
+                caixaDialogo.dialogoSimples(MainActivity.this, "Abrir novo arquivo", "Abrir um novo arquivo irá apagar tudo da relação atual no App. Deseja continuar?", "Sim", "Não", new Utils.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
                         if (i.equals("true")) {
 
-                            utilities.abrirArquivo(MainActivity.this);
+                            arquivos.abrirArquivo(MainActivity.this);
                         }
                     }
                 });
@@ -234,18 +242,18 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.naoLocalizados:
 
-                utilities.separarNaoAchados(MainActivity.this, relacao);
+                utils.separarNaoAchados(MainActivity.this, relacao);
 
                 return true;
 
             case R.id.procurar:
 
-                utilities.dialogoSimplesComView(MainActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, new Utilities.onButtonPressed() {
+                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, new Utils.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 
-                        utilities.realcarTexto(relacao, i.toUpperCase(), relacaoTV);
-                        utilities.realcarTexto(foraDaRelacao, i.toUpperCase(), foraDaRelacaoTV);
+                        utils.realcarTexto(relacao, i.toUpperCase(), relacaoTV);
+                        utils.realcarTexto(foraDaRelacao, i.toUpperCase(), foraDaRelacaoTV);
                     }
                 });
 
@@ -253,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.editavel:
 
-                utilities.campoEditavel(MainActivity.this, foraDaRelacao);
+                utils.campoEditavel(MainActivity.this, foraDaRelacao);
 
                 return true;
 
@@ -265,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.forcarSalvar:
 
-                utilities.dialogoSimples(MainActivity.this, "Salvar", "Salvar todas as alterações na relação atual?", "Sim", "Não", new Utilities.onButtonPressed() {
+                caixaDialogo.dialogoSimples(MainActivity.this, "Salvar", "Salvar todas as alterações na relação atual?", "Sim", "Não", new Utils.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
                         if (i.equals("true")) {
@@ -279,15 +287,38 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
 
-            case R.id.criarJson:
+            case R.id.enviarJson:
 
-                utilities.criarESalvarJson(MainActivity.this, nomeArquivo);
+                arquivos.enviarArquivo(MainActivity.this,
+                        nomeArquivo, json.criarJson(MainActivity.this,
+                                nomeArquivo, foraDaRelacao.getText().toString(),
+                                relacao.getText().toString()).toString(),
+                        ".json");
 
                 return true;
 
-            case R.id.teste:
+            case R.id.criarJson:
 
-                utilities.connectPastebin();
+                json.criarESalvarJson(MainActivity.this, nomeArquivo);
+
+                return true;
+
+            case R.id.gerarQrCode:
+
+                pastebin.gerarQRCode(MainActivity.this, MainActivity.this, json.criarJson(MainActivity.this, nomeArquivo, foraDaRelacao.getText().toString(), relacao.getText().toString()).toString());
+
+                return true;
+
+            case R.id.salvarConta:
+
+                pastebin.salvarPastebinLogin(MainActivity.this);
+
+                return true;
+
+            case R.id.criarConta:
+
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pastebin.com/signup"));
+                startActivity(i);
 
                 return true;
 
@@ -314,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (intentResult.getContents().contains("pastebin")) {
 
-                    utilities.dialogoSimples(MainActivity.this, "Carregar nova relação", "Carregar uma nova relação do pastebin?", "Sim", "Cancelar", new Utilities.onButtonPressed() {
+                    caixaDialogo.dialogoSimples(MainActivity.this, "Carregar nova relação", "Carregar uma nova relação do pastebin?", "Sim", "Cancelar", new Utils.onButtonPressed() {
                         @Override
                         public void buttonPressed(String i) {
 
@@ -413,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 try {
 
-                    JSONObject jsonObject = utilities.criarJson(MainActivity.this, nomeArquivo, foraDaRelacao.getText().toString(), relacao.getText().toString());
+                    JSONObject jsonObject = json.criarJson(MainActivity.this, nomeArquivo, foraDaRelacao.getText().toString(), relacao.getText().toString());
 
                     Uri uri = data.getData();
 
@@ -451,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void pastebin(String url) {
 
-        utilities.dialogoSimplesComView(MainActivity.this, "Nome da relação", "Insira o nome da relação abaixo:", "Exemplo: SEPAT", "Ok", "Cancelar", InputType.TYPE_CLASS_TEXT, false, new Utilities.onButtonPressed() {
+        caixaDialogo.dialogoSimplesComView(MainActivity.this, "Nome da relação", "Insira o nome da relação abaixo:", "Exemplo: SEPAT", "Ok", "Cancelar", InputType.TYPE_CLASS_TEXT, false, new Utils.onButtonPressed() {
             @Override
             public void buttonPressed(String i) {
 
@@ -521,7 +552,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void naoEncontrado(String patrimonio) {
 
-        utilities.naoEncontrado(MainActivity.this, patrimonio, new Utilities.onButtonPressed() {
+        caixaDialogo.naoEncontrado(MainActivity.this, patrimonio, new Utils.onButtonPressed() {
             @Override
             public void buttonPressed(String i) {
 
@@ -542,11 +573,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void manterNaMemoria() {
 
-        utilities.manterNaMemoria(MainActivity.this, nomeArquivo, "nome_arquivo.txt");
+        utils.manterNaMemoria(MainActivity.this, nomeArquivo, "nome_arquivo.txt");
 
-        utilities.manterNaMemoria(MainActivity.this, foraDaRelacao.getText().toString(), "fora_da_relacao.txt");
+        utils.manterNaMemoria(MainActivity.this, foraDaRelacao.getText().toString(), "fora_da_relacao.txt");
 
-        utilities.manterNaMemoria(MainActivity.this, relacao.getText().toString(), "relacao.txt");
+        utils.manterNaMemoria(MainActivity.this, relacao.getText().toString(), "relacao.txt");
 
         contadorLinhas();
     }
