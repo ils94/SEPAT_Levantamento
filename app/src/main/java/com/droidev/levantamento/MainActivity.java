@@ -499,7 +499,7 @@ public class MainActivity extends AppCompatActivity {
         contadorForaDaRelacao = foraDaRelacao.getLineCount() - 1;
         contadorRelacao = relacao.getLineCount() - 1;
 
-        foraDaRelacaoTV.setText("LOC. FIS. QUE NÃO CONSTA NA RELAÇÃO: " + contadorForaDaRelacao + " ITENS");
+        foraDaRelacaoTV.setText("LOC. FIS. FORA DA RELAÇÃO: " + contadorForaDaRelacao + " ITENS");
         relacaoTV.setText("RELAÇÃO: " + contadorRelacao + " ITENS");
     }
 

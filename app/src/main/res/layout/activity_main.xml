@@ -21,7 +21,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:padding="5dp"
-            android:text="LOC. FIS. QUE NÃO CONSTA NA RELAÇÃO: 0 ITENS"
+            android:text="LOC. FIS. FORA DA RELAÇÃO: 0 ITENS"
             android:textColor="@color/black"
             android:textSize="12sp" />
 

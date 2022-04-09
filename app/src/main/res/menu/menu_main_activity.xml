@@ -32,7 +32,7 @@
 
             <item
                 android:id="@+id/gerarForaRelacaoCSV"
-                android:title="Gerar Localizados Fora da Relação" />
+                android:title="Gerar Loc. Fis. Fora da Relação" />
 
             <item
                 android:id="@+id/abrirArquivo"
@@ -52,7 +52,7 @@
 
             <item
                 android:id="@+id/copiarForaRelacao"
-                android:title="Localizados Fora da Relação" />
+                android:title="Loc. Fis. Fora da Relação" />
 
             <item
                 android:id="@+id/copiarRelacao"
