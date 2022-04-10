@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -65,13 +64,25 @@ public class NaoAchadosActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.copiarNaoAchados:
 
-                utils.copiarTexto(NaoAchadosActivity.this, "Bens que faltam checar - " + j + "\n\n" + naoAchados.getText().toString());
+                utils.copiarTexto(NaoAchadosActivity.this,
+                        "Bens que faltam checar - "
+                                + j + "\n\n"
+                                + naoAchados.getText().toString());
 
                 return true;
 
             case R.id.procurarNaoAchados:
 
-                caixaDialogo.dialogoSimplesComView(NaoAchadosActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, false, new CaixaDialogo.onButtonPressed() {
+                caixaDialogo.dialogoSimplesComView(NaoAchadosActivity.this,
+                        "Procurar",
+                        "Digite uma palavra abaixo para realçar.",
+                        "Exemplo: estabilizador",
+                        "Procurar",
+                        "Cancelar",
+                        InputType.TYPE_CLASS_TEXT,
+                        true,
+                        false,
+                        new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 

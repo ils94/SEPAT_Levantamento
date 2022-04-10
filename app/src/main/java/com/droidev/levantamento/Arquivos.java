@@ -25,7 +25,16 @@ public class Arquivos {
 
     private void exportarDados(Activity activity, String dados, String extensao) {
 
-        caixaDialogo.dialogoSimplesComView(activity, "Enviar relatório", "Nome do arquivo:", "Exemplo: Deposito 2 / SAMS UL 580", "Enviar", "Cancelar", InputType.TYPE_CLASS_TEXT, false, false, new CaixaDialogo.onButtonPressed() {
+        caixaDialogo.dialogoSimplesComView(activity,
+                "Enviar relatório",
+                "Nome do arquivo:",
+                "Exemplo: Deposito 2 / SAMS UL 580",
+                "Enviar",
+                "Cancelar",
+                InputType.TYPE_CLASS_TEXT,
+                false,
+                false,
+                new CaixaDialogo.onButtonPressed() {
             @Override
             public void buttonPressed(String i) {
 
@@ -110,7 +119,22 @@ public class Arquivos {
             }
         }
 
-        String documento = utils.dataHora() + "\n\nTOTAL DE BENS NA RELAÇÃO: " + listaRelacao.length + " ITENS\nTOTAL DE BENS LOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: " + quantidadeForaRelacao + " ITENS\nTOTAL DE BENS NÃO LOCALIZADOS FISICAMENTE: " + j + " ITENS\nSOMA TOTAL (RELAÇÃO + FISICAMENTE LOCALIZADOS QUE NÃO CONSTA NA RELAÇÃO): " + (listaRelacao.length + quantidadeForaRelacao) + " ITENS\n\nLOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: " + quantidadeForaRelacao + " ITENS\n\n" + editText.getText().toString() + "\n" + "BENS NÃO LOCALIZADOS FISICAMENTE: " + j + " ITENS\n\n" + listaNaoAchados + "\n\n" + "RELAÇÃO: " + listaRelacao.length + " ITENS\n\n" + textView.getText().toString();
+        String documento = utils.dataHora()
+                + "\n\nTOTAL DE BENS NA RELAÇÃO: "
+                + listaRelacao.length
+                + " ITENS\nTOTAL DE BENS LOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: "
+                + quantidadeForaRelacao
+                + " ITENS\nTOTAL DE BENS NÃO LOCALIZADOS FISICAMENTE: "
+                + j + " ITENS\nSOMA TOTAL (RELAÇÃO + FISICAMENTE LOCALIZADOS QUE NÃO CONSTA NA RELAÇÃO): "
+                + (listaRelacao.length + quantidadeForaRelacao)
+                + " ITENS\n\nLOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: "
+                + quantidadeForaRelacao + " ITENS\n\n"
+                + editText.getText().toString() + "\n"
+                + "BENS NÃO LOCALIZADOS FISICAMENTE: "
+                + j + " ITENS\n\n" + listaNaoAchados
+                + "\n\n" + "RELAÇÃO: "
+                + listaRelacao.length
+                + " ITENS\n\n" + textView.getText().toString();
 
         exportarDados(activity, documento, ".txt");
 
