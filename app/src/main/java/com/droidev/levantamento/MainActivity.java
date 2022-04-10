@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Boolean ultimoItem = false, voltarItem = false;
 
-    private String ultimo, atual, nomeArquivo;
+    private String ultimo, atual;
+    public String nomeArquivo;
 
     private static final int LER_ARQUIVO = 1;
     private static final int CRIAR_JSON = 2;
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.manual:
 
-                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Modo manual", "Insira o número patrimonial abaixo:", "Exemplo: 012345", "Ok", "Cancelar", InputType.TYPE_CLASS_NUMBER, false, new CaixaDialogo.onButtonPressed() {
+                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Modo manual", "Insira o número patrimonial abaixo:", "Exemplo: 012345", "Ok", "Cancelar", InputType.TYPE_CLASS_NUMBER, false, true, new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 
@@ -234,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.procurar:
 
-                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, new CaixaDialogo.onButtonPressed() {
+                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, false, new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 
@@ -276,8 +277,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.enviarJson:
 
                 arquivos.enviarArquivo(MainActivity.this,
-                        nomeArquivo, json.criarJson(MainActivity.this,
-                                nomeArquivo, foraDaRelacao.getText().toString(),
+                        getTitle().toString(), json.criarJson(MainActivity.this,
+                                getTitle().toString(), foraDaRelacao.getText().toString(),
                                 relacao.getText().toString()).toString(),
                         ".json");
 
@@ -285,13 +286,13 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.criarJson:
 
-                json.criarESalvarJson(MainActivity.this, nomeArquivo);
+                json.criarESalvarJson(MainActivity.this, getTitle().toString());
 
                 return true;
 
             case R.id.gerarQrCode:
 
-                pastebin.gerarQRCode(MainActivity.this, MainActivity.this, json.criarJson(MainActivity.this, nomeArquivo, foraDaRelacao.getText().toString(), relacao.getText().toString()).toString());
+                pastebin.gerarQRCode(MainActivity.this, json.criarJson(MainActivity.this, getTitle().toString(), foraDaRelacao.getText().toString(), relacao.getText().toString()).toString());
 
                 return true;
 
@@ -336,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (i.equals("true")) {
 
-                                pastebin(intentResult.getContents());
+                                pastebin.pastebin(MainActivity.this, intentResult.getContents(), foraDaRelacao, relacao, foraDaRelacaoTV, relacaoTV);
                             }
                         }
                     });
@@ -465,99 +466,9 @@ public class MainActivity extends AppCompatActivity {
         contadorLinhas();
     }
 
-    private void pastebin(String url) {
+    public void contadorLinhas() {
 
-        foraDaRelacao.setText("Buscando do pastebin...");
-        relacao.setText("Buscando do pastebin...");
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                final StringBuilder sb = new StringBuilder();
-
-                try {
-
-                    Document doc = Jsoup.connect(url).get();
-
-                    String text = doc.select("textarea[class=textarea]").text();
-
-                    sb.append(text);
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            if (sb.toString().contains("nomeArquivo")) {
-
-                                try {
-
-                                    JSONObject jsonObject = new JSONObject(String.valueOf(sb));
-
-                                    nomeArquivo = jsonObject.getString("nomeArquivo");
-
-                                    foraDaRelacao.setText(jsonObject.getString("foraRelacao"));
-
-                                    relacao.setText(jsonObject.getString("relacao"));
-
-                                    setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
-
-                                    contadorLinhas();
-
-                                    manterNaMemoria();
-
-                                } catch (JSONException e) {
-
-                                    Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-
-                                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Nome da relação", "Insira o nome da relação abaixo:", "Exemplo: SEPAT", "Ok", "Cancelar", InputType.TYPE_CLASS_TEXT, false, new CaixaDialogo.onButtonPressed() {
-                                    @Override
-                                    public void buttonPressed(String i) {
-
-                                        nomeArquivo = i;
-
-                                        foraDaRelacao.setText("");
-                                        relacao.setText("");
-                                        relacao.setText(sb.toString().replace(",", ": ") + "\n");
-
-                                        setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
-
-                                        contadorLinhas();
-
-                                        manterNaMemoria();
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                    relacao.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            relacao.setText(e.toString());
-                            foraDaRelacao.setText(e.toString());
-                        }
-                    });
-                }
-            }
-        }).start();
-    }
-
-    private void contadorLinhas() {
-
-        int contadorForaDaRelacao, contadorRelacao;
-
-        contadorForaDaRelacao = foraDaRelacao.getLineCount() - 1;
-        contadorRelacao = relacao.getLineCount() - 1;
-
-        foraDaRelacaoTV.setText("FORA DA RELAÇÃO - " + contadorForaDaRelacao + " ITENS");
-        relacaoTV.setText("RELAÇÃO - " + contadorRelacao + " ITENS");
+        utils.contadorLinhas(foraDaRelacao, relacao, foraDaRelacaoTV, relacaoTV);
     }
 
     private void esperar() {

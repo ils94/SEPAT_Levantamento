@@ -8,9 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,6 +34,11 @@ import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 public class Pastebin {
+
+    MainActivity mainActivity = new MainActivity();
+    CaixaDialogo caixaDialogo = new CaixaDialogo();
+    Utils utils = new Utils();
+    String nomeArquivo;
 
     public String gerarChave(String login, String senha, String devKey) {
 
@@ -74,13 +85,13 @@ public class Pastebin {
         return result;
     }
 
-    public void gerarQRCode(Context context, Activity activity, String content) {
+    public void gerarQRCode(Activity activity, String content) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                TinyDB tinyDB = new TinyDB(context);
+                TinyDB tinyDB = new TinyDB(activity.getBaseContext());
 
                 String login = tinyDB.getString("login");
                 String senha = tinyDB.getString("senha");
@@ -92,7 +103,7 @@ public class Pastebin {
                         @Override
                         public void run() {
 
-                            Toast.makeText(context, "Erro, salve uma conta pastebin primeiro", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity.getBaseContext(), "Erro, salve uma conta pastebin primeiro", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -138,9 +149,9 @@ public class Pastebin {
 
                         System.out.println(result);
 
-                        Intent myIntent = new Intent(context, QRCodeActivity.class);
+                        Intent myIntent = new Intent(activity.getBaseContext(), QRCodeActivity.class);
                         myIntent.putExtra("content", result);
-                        context.startActivity(myIntent);
+                        activity.getBaseContext().startActivity(myIntent);
 
                     } catch (IOException e) {
 
@@ -150,7 +161,7 @@ public class Pastebin {
                             @Override
                             public void run() {
 
-                                Toast.makeText(context, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity.getBaseContext(), "Ocorreu um erro", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -236,5 +247,109 @@ public class Pastebin {
                 devKey.setText("");
             }
         });
+    }
+
+    public void pastebin(Activity activity, String url, EditText editText, TextView textView1, TextView textView2, TextView textView3) {
+
+        editText.setText("Buscando do pastebin...");
+        textView1.setText("Buscando do pastebin...");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                final StringBuilder sb = new StringBuilder();
+
+                try {
+
+                    Document doc = Jsoup.connect(url).get();
+
+                    String text = doc.select("textarea[class=textarea]").text();
+
+                    sb.append(text);
+
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (sb.toString().contains("nomeArquivo")) {
+
+                                try {
+
+                                    JSONObject jsonObject = new JSONObject(String.valueOf(sb));
+
+                                    mainActivity.nomeArquivo = jsonObject.getString("nomeArquivo");
+
+                                    nomeArquivo = mainActivity.nomeArquivo;
+
+                                    editText.setText(jsonObject.getString("foraRelacao"));
+
+                                    textView1.setText(jsonObject.getString("relacao"));
+
+                                    activity.setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
+
+                                    utils.contadorLinhas(editText, textView1, textView2, textView3);
+
+                                    utils.manterNaMemoria(activity.getBaseContext(), nomeArquivo, "nome_arquivo.txt");
+
+                                    utils.manterNaMemoria(activity.getBaseContext(), editText.getText().toString(), "fora_da_relacao.txt");
+
+                                    utils.manterNaMemoria(activity.getBaseContext(), textView1.getText().toString(), "relacao.txt");
+
+                                } catch (JSONException e) {
+
+                                    Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+
+                                caixaDialogo.dialogoSimplesComView(activity, "Nome da relação", "Insira o nome da relação abaixo:", "Exemplo: SEPAT", "Ok", "Cancelar", InputType.TYPE_CLASS_TEXT, false, false, new CaixaDialogo.onButtonPressed() {
+                                    @Override
+                                    public void buttonPressed(String i) {
+
+                                        mainActivity.nomeArquivo = i;
+
+                                        nomeArquivo = mainActivity.nomeArquivo;
+
+                                        editText.setText("");
+                                        textView1.setText("");
+                                        textView1.setText(sb.toString().replace(",", ": ") + "\n");
+
+                                        activity.setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
+
+                                        utils.contadorLinhas(editText, textView1, textView2, textView3);
+
+                                        utils.manterNaMemoria(activity.getBaseContext(), nomeArquivo, "nome_arquivo.txt");
+
+                                        utils.manterNaMemoria(activity.getBaseContext(), editText.getText().toString(), "fora_da_relacao.txt");
+
+                                        utils.manterNaMemoria(activity.getBaseContext(), textView1.getText().toString(), "relacao.txt");
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    editText.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            editText.setText(e.toString());
+
+                        }
+                    });
+
+                    textView1.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            textView1.setText(e.toString());
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }

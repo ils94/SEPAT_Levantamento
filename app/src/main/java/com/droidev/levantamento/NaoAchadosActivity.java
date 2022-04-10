@@ -71,7 +71,7 @@ public class NaoAchadosActivity extends AppCompatActivity {
 
             case R.id.procurarNaoAchados:
 
-                caixaDialogo.dialogoSimplesComView(NaoAchadosActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, new CaixaDialogo.onButtonPressed() {
+                caixaDialogo.dialogoSimplesComView(NaoAchadosActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, false, new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 

@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -88,44 +90,6 @@ public class Utils {
         }).start();
     }
 
-    public void scanner(Activity context) {
-
-        IntentIntegrator intentIntegrator = new IntentIntegrator(context);
-        intentIntegrator.setPrompt("Aponte a câmera para o código de barras ou QR code");
-        intentIntegrator.setCaptureActivity(ScannerActivity.class);
-        intentIntegrator.setCameraId(0);
-        intentIntegrator.initiateScan();
-    }
-
-    public void manterNaMemoria(Context context, String content, String file) {
-
-        File path = context.getFilesDir();
-        try {
-            FileOutputStream writer = new FileOutputStream(new File(path, file));
-            writer.write(content.getBytes());
-            writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public String recuperarDaMemoria(Context context, String filename) {
-        File path = context.getFilesDir();
-        File readFrom = new File(path, filename);
-        byte[] content = new byte[(int) readFrom.length()];
-
-        try {
-
-            FileInputStream stream = new FileInputStream(readFrom);
-            stream.read(content);
-            return new String(content);
-
-        } catch (Exception e) {
-            return "";
-        }
-    }
-
     public void copiarTexto(Context context, String string) {
 
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -160,13 +124,24 @@ public class Utils {
         }
     }
 
-    public String dataHora() {
+    public void contadorLinhas(EditText editText, TextView textView1, TextView textView2, TextView textView3) {
 
-        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        int contadorForaDaRelacao, contadorRelacao;
 
-        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        contadorForaDaRelacao = editText.getLineCount() - 1;
+        contadorRelacao = textView1.getLineCount() - 1;
 
-        return "RELATÓRIO GERADO EM " + currentDate + " ÀS " + currentTime;
+        textView2.setText("FORA DA RELAÇÃO - " + contadorForaDaRelacao + " ITENS");
+        textView3.setText("RELAÇÃO - " + contadorRelacao + " ITENS");
+    }
+
+    public void scanner(Activity context) {
+
+        IntentIntegrator intentIntegrator = new IntentIntegrator(context);
+        intentIntegrator.setPrompt("Aponte a câmera para o código de barras ou QR code");
+        intentIntegrator.setCaptureActivity(ScannerActivity.class);
+        intentIntegrator.setCameraId(0);
+        intentIntegrator.initiateScan();
     }
 
     public void salvarConfigScanner(Context context, String flashKey, String flash, String rotationKey, String rotation) {
@@ -198,6 +173,44 @@ public class Utils {
         }
 
         return new String[]{tinyFlashKey, tinyRotationKey};
+    }
+
+    public void manterNaMemoria(Context context, String content, String file) {
+
+        File path = context.getFilesDir();
+        try {
+            FileOutputStream writer = new FileOutputStream(new File(path, file));
+            writer.write(content.getBytes());
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public String recuperarDaMemoria(Context context, String filename) {
+        File path = context.getFilesDir();
+        File readFrom = new File(path, filename);
+        byte[] content = new byte[(int) readFrom.length()];
+
+        try {
+
+            FileInputStream stream = new FileInputStream(readFrom);
+            stream.read(content);
+            return new String(content);
+
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public String dataHora() {
+
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+
+        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        return "RELATÓRIO GERADO EM " + currentDate + " ÀS " + currentTime;
     }
 
     public void separarNaoAchados(Context context, TextView textView) {
