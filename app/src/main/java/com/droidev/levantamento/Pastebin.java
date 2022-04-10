@@ -151,7 +151,7 @@ public class Pastebin {
 
                         Intent myIntent = new Intent(activity.getBaseContext(), QRCodeActivity.class);
                         myIntent.putExtra("content", result);
-                        activity.getBaseContext().startActivity(myIntent);
+                        activity.startActivity(myIntent);
 
                     } catch (IOException e) {
 
