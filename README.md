@@ -1,2 +1,2 @@
 # Levantamento
-Aplicativo feito para ajudar com o inventario de bens do TRE-RN
+Ferramenta para auxiliar na realização de inventario de bens do TRE-RN
