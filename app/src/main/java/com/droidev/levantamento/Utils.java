@@ -77,10 +77,10 @@ public class Utils {
 
                         if (count[0] < 0) {
 
-                            tv2.setText("Achados: " + 0);
+                            tv2.setText("ACHADOS: " + 0);
                         } else {
 
-                            tv2.setText("Achados: " + count[0]);
+                            tv2.setText("ACHADOS: " + count[0]);
                         }
                     }
                 });
