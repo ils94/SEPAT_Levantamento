@@ -62,7 +62,7 @@ public class Arquivos {
             context.startActivity(Intent.createChooser(fileIntent, "Enviar"));
 
         } catch (Exception e) {
-
+            e.printStackTrace();
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -75,7 +75,7 @@ public class Arquivos {
             intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
             activity.startActivityForResult(Intent.createChooser(intent, "Abrir relação"), LER_ARQUIVO);
         } catch (Exception e) {
-
+            e.printStackTrace();
             Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
         }
     }

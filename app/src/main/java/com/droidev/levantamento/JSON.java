@@ -24,7 +24,7 @@ public class JSON {
             jsonObject.put("relacao", relacao);
 
         } catch (Exception e) {
-
+            e.printStackTrace();
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
         }
 
@@ -40,18 +40,5 @@ public class JSON {
         intent.putExtra(Intent.EXTRA_TITLE, nomeArquivo + ".json");
 
         activity.startActivityForResult(intent, CRIAR_JSON);
-    }
-
-    public boolean isJSONValid(String test) {
-        try {
-            new JSONObject(test);
-        } catch (JSONException ex) {
-            try {
-                new JSONArray(test);
-            } catch (JSONException ex1) {
-                return false;
-            }
-        }
-        return true;
     }
 }

@@ -67,8 +67,8 @@ public class Pastebin {
 
             result = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
 
-        } catch (IOException urlException) {
-            urlException.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return result;
@@ -142,7 +142,9 @@ public class Pastebin {
                         myIntent.putExtra("content", result);
                         context.startActivity(myIntent);
 
-                    } catch (IOException urlException) {
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
 
                         activity.runOnUiThread(new Runnable() {
                             @Override
@@ -179,10 +181,11 @@ public class Pastebin {
 
         AlertDialog dialog = new AlertDialog.Builder(context)
                 .setCancelable(false)
-                .setTitle("Salvar Conta")
+                .setTitle("Salvar Conta Pastebin")
                 .setMessage("Insira seu login, senha e api_dev_key para salvar.")
                 .setPositiveButton("Ok", null)
                 .setNegativeButton("Cancelar", null)
+                .setNeutralButton("Limpar Tudo", null)
                 .setView(lay)
                 .show();
 
@@ -193,6 +196,7 @@ public class Pastebin {
         devKey.setText(tinyDB.getString("devKey"));
 
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
 
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,6 +224,16 @@ public class Pastebin {
 
                     Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        neutralButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                login.setText("");
+                senha.setText("");
+                devKey.setText("");
             }
         });
     }

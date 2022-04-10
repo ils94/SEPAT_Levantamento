@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             setTitle("Levantamento");
         } else {
 
-            setTitle(nomeArquivo);
+            setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
         }
 
         String content_bens = utils.recuperarDaMemoria(MainActivity.this, "fora_da_relacao.txt");
@@ -105,28 +105,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        AlertDialog dialogo = new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setTitle("Sair")
-                .setMessage("Deseja sair da aplicação?")
-                .setPositiveButton("Sim", null)
-                .setNegativeButton("Não", null)
-                .show();
-
-        Button positiveButton = dialogo.getButton(AlertDialog.BUTTON_POSITIVE);
-
-        positiveButton.setOnClickListener(new View.OnClickListener() {
+        caixaDialogo.dialogoSimples(MainActivity.this, "Sair", "Deseja sair da aplicação?", "Sim", "Não", new CaixaDialogo.onButtonPressed() {
             @Override
-            public void onClick(View v) {
+            public void buttonPressed(String i) {
 
-                dialogo.dismiss();
+                if (i.equals("true")) {
 
-                manterNaMemoria();
+                    manterNaMemoria();
 
-                MainActivity.this.finish();
+                    MainActivity.this.finish();
+                }
             }
         });
-
     }
 
     @Override
@@ -383,10 +373,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if (nomeArquivo.contains(".csv")) {
 
-                    nomeArquivo = nomeArquivo.replace(".csv", "").replace(" ", "_");
-
-                    setTitle(nomeArquivo);
-
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(uri);
                         BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
@@ -398,17 +384,13 @@ public class MainActivity extends AppCompatActivity {
                         while ((mLine = r.readLine()) != null) {
                             relacao.append(mLine.toUpperCase().replace(",", ": ").replace("  ", " ") + "\n");
                         }
-                    } catch (FileNotFoundException e) {
-                        Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+
                     } catch (IOException e) {
+                        e.printStackTrace();
                         Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
                     }
 
                 } else if (nomeArquivo.contains(".json")) {
-
-                    nomeArquivo = nomeArquivo.replace(".json", "").replace(" ", "_");
-
-                    setTitle(nomeArquivo);
 
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(uri);
@@ -428,15 +410,20 @@ public class MainActivity extends AppCompatActivity {
 
                         relacao.setText(jsonObject.getString("relacao"));
 
-                    } catch (FileNotFoundException e) {
-                        Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
+                        e.printStackTrace();
                         Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
+                        e.printStackTrace();
                         Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
                     }
+                } else {
+
+                    Toast.makeText(getBaseContext(), "Arquivo inválido", Toast.LENGTH_SHORT).show();
                 }
             }
+
+            setTitle(nomeArquivo.replace(".json", "").replace(".csv", "").replace(" ", "_").toUpperCase());
         }
 
         if (requestCode == CRIAR_JSON) {
@@ -454,10 +441,13 @@ public class MainActivity extends AppCompatActivity {
                     outputStream.close();
 
                     Toast.makeText(getBaseContext(), "Arquivo JSON salvo", Toast.LENGTH_SHORT).show();
+
                 } catch (IOException e) {
+                    e.printStackTrace();
                     Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
                 }
             } else {
+
                 Toast.makeText(getBaseContext(), "Não foi possível salvar o arquivo JSON", Toast.LENGTH_SHORT).show();
             }
         }
@@ -481,78 +471,77 @@ public class MainActivity extends AppCompatActivity {
 
     private void pastebin(String url) {
 
-        caixaDialogo.dialogoSimplesComView(MainActivity.this, "Nome da relação", "Insira o nome da relação abaixo:", "Exemplo: SEPAT", "Ok", "Cancelar", InputType.TYPE_CLASS_TEXT, false, new CaixaDialogo.onButtonPressed() {
+        new Thread(new Runnable() {
             @Override
-            public void buttonPressed(String i) {
+            public void run() {
 
-                nomeArquivo = i.replace(" ", "_").toUpperCase();
+                final StringBuilder sb = new StringBuilder();
 
-                foraDaRelacao.setText("Buscando no pastebin...");
+                try {
 
-                relacao.setText("Buscando no pastebin...");
+                    Document doc = Jsoup.connect(url).get();
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+                    String text = doc.select("textarea[class=textarea]").text();
 
-                        final StringBuilder sb = new StringBuilder();
+                    sb.append(text);
 
-                        try {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
 
-                            Document doc = Jsoup.connect(url).get();
+                            if (sb.toString().contains("nomeArquivo")) {
 
-                            String text = doc.select("textarea[class=textarea]").text();
+                                try {
 
-                            sb.append(text);
+                                    JSONObject jsonObject = new JSONObject(String.valueOf(sb));
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                                    nomeArquivo = jsonObject.getString("nomeArquivo");
 
-                                    if (sb.toString().contains("nomeArquivo")) {
+                                    foraDaRelacao.setText(jsonObject.getString("foraRelacao"));
 
-                                        try {
+                                    relacao.setText(jsonObject.getString("relacao"));
 
-                                            JSONObject jsonObject = new JSONObject(String.valueOf(sb));
+                                } catch (JSONException e) {
 
-                                            foraDaRelacao.setText(jsonObject.getString("foraRelacao"));
+                                    Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
 
-                                            relacao.setText(jsonObject.getString("relacao"));
+                                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Nome da relação", "Insira o nome da relação abaixo:", "Exemplo: SEPAT", "Ok", "Cancelar", InputType.TYPE_CLASS_TEXT, false, new CaixaDialogo.onButtonPressed() {
+                                    @Override
+                                    public void buttonPressed(String i) {
 
-                                        } catch (JSONException e) {
-                                            Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    } else {
+                                        nomeArquivo = i;
 
                                         foraDaRelacao.setText("");
                                         relacao.setText("");
                                         relacao.setText(sb.toString().replace(",", ": ") + "\n");
                                     }
+                                });
+                            }
 
-                                    setTitle(nomeArquivo);
+                            setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
 
-                                    contadorLinhas();
+                            contadorLinhas();
 
-                                    manterNaMemoria();
-                                }
-                            });
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-
-                            relacao.post(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    relacao.setText(e.toString());
-                                    foraDaRelacao.setText(e.toString());
-                                }
-                            });
+                            manterNaMemoria();
                         }
-                    }
-                }).start();
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    relacao.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            relacao.setText(e.toString());
+                            foraDaRelacao.setText(e.toString());
+                        }
+                    });
+                }
             }
-        });
+        }).start();
     }
 
     private void contadorLinhas() {
@@ -562,8 +551,8 @@ public class MainActivity extends AppCompatActivity {
         contadorForaDaRelacao = foraDaRelacao.getLineCount() - 1;
         contadorRelacao = relacao.getLineCount() - 1;
 
-        foraDaRelacaoTV.setText("LOC. FIS. FORA DA RELAÇÃO: " + contadorForaDaRelacao + " ITENS");
-        relacaoTV.setText("RELAÇÃO: " + contadorRelacao + " ITENS");
+        foraDaRelacaoTV.setText("FORA DA RELAÇÃO - " + contadorForaDaRelacao + " ITENS");
+        relacaoTV.setText("RELAÇÃO - " + contadorRelacao + " ITENS");
     }
 
     private void esperar() {

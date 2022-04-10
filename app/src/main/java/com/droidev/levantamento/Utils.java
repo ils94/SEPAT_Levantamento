@@ -105,6 +105,7 @@ public class Utils {
             writer.write(content.getBytes());
             writer.close();
         } catch (Exception e) {
+            e.printStackTrace();
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -224,6 +225,7 @@ public class Utils {
             context.startActivity(myIntent);
 
         } catch (Exception e) {
+            e.printStackTrace();
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
         }
     }

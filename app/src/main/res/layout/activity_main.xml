@@ -21,7 +21,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:padding="5dp"
-            android:text="LOC. FIS. FORA DA RELAÇÃO: 0 ITENS"
+            android:text="FORA DA RELAÇÃO"
             android:textColor="@color/black"
             android:textSize="12sp" />
 
@@ -55,7 +55,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:padding="5dp"
-            android:text="RELAÇÃO: 0 ITENS"
+            android:text="RELAÇÃO"
             android:textColor="@color/black"
             android:textSize="12sp" />
 
