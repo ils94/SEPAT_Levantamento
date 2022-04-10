@@ -467,6 +467,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void pastebin(String url) {
 
+        foraDaRelacao.setText("Buscando do pastebin...");
+        relacao.setText("Buscando do pastebin...");
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -497,6 +500,12 @@ public class MainActivity extends AppCompatActivity {
 
                                     relacao.setText(jsonObject.getString("relacao"));
 
+                                    setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
+
+                                    contadorLinhas();
+
+                                    manterNaMemoria();
+
                                 } catch (JSONException e) {
 
                                     Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
@@ -512,15 +521,15 @@ public class MainActivity extends AppCompatActivity {
                                         foraDaRelacao.setText("");
                                         relacao.setText("");
                                         relacao.setText(sb.toString().replace(",", ": ") + "\n");
+
+                                        setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
+
+                                        contadorLinhas();
+
+                                        manterNaMemoria();
                                     }
                                 });
                             }
-
-                            setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
-
-                            contadorLinhas();
-
-                            manterNaMemoria();
                         }
                     });
 
