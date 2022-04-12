@@ -71,10 +71,8 @@ public class MainActivity extends AppCompatActivity {
         relacao.setMovementMethod(new ScrollingMovementMethod());
 
         nomeArquivo = utils.recuperarDaMemoria(MainActivity.this, "nome_arquivo.txt");
-        if (nomeArquivo.equals("")) {
 
-            setTitle("Levantamento");
-        } else {
+        if (!nomeArquivo.equals("")) {
 
             setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
         }
