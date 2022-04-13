@@ -92,7 +92,7 @@ public class CaixaDialogo {
         });
     }
 
-    public void inserirManualmente(Activity context, onButtonPressed onButtonPressed) {
+    public void inserirManualmente(Context context, onButtonPressed onButtonPressed) {
 
         EditText editText = new AutoCompleteTextView(context);
         editText.setHint("Exemplo: 012345");
