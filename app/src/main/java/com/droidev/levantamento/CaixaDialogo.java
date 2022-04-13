@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -90,7 +92,7 @@ public class CaixaDialogo {
         });
     }
 
-    public void dialogoSimples(Context context, String title, String message, String positive, String negative, onButtonPressed onButtonPressed) {
+    public void simples(Context context, String title, String message, String positive, String negative, onButtonPressed onButtonPressed) {
 
         androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(context)
                 .setCancelable(false)
@@ -113,11 +115,11 @@ public class CaixaDialogo {
         });
     }
 
-    public void dialogoSimplesComView(Activity context, String title, String message, String hint, String positive, String negative, int inputType, Boolean adapter, Boolean length, onButtonPressed onButtonPressed) {
+    public void simplesComView(Activity context, String title, String message, String hint, String positive, String negative, Boolean adapter, onButtonPressed onButtonPressed) {
 
         AutoCompleteTextView autoCompleteTextView = new AutoCompleteTextView(context);
         autoCompleteTextView.setHint(hint);
-        autoCompleteTextView.setInputType(inputType);
+        autoCompleteTextView.setInputType(InputType.TYPE_CLASS_TEXT);
 
         LinearLayout lay = new LinearLayout(context);
         lay.setOrientation(LinearLayout.VERTICAL);
@@ -147,31 +149,103 @@ public class CaixaDialogo {
 
                 String string = autoCompleteTextView.getText().toString();
 
-                if (length && string.length() < 6) {
+                if (!string.equals("")) {
+
+                    onButtonPressed.buttonPressed(string);
+
+                    if (adapter) {
+
+                        if (!historicoBens.contains(autoCompleteTextView.getText().toString())) {
+
+                            tinyDB.remove("historicoBens");
+                            historicoBens.add(autoCompleteTextView.getText().toString());
+                            tinyDB.putListString("historicoBens", historicoBens);
+                        }
+                    }
+
+                    dialog.dismiss();
+
+                } else {
+
+                    Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void inserirManualmente(Activity context, onButtonPressed onButtonPressed) {
+
+        EditText editText = new AutoCompleteTextView(context);
+        editText.setHint("Exemplo: 012345");
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        LinearLayout lay = new LinearLayout(context);
+        lay.setOrientation(LinearLayout.VERTICAL);
+        lay.addView(editText);
+
+        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle("Modo manual")
+                .setMessage("Insira o número patrimonial abaixo:")
+                .setPositiveButton("Ok", null)
+                .setNegativeButton("Cancelar", null)
+                .setNeutralButton("N° de Série", null)
+                .setView(lay)
+                .show();
+
+        Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
+
+        Button neutralButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL);
+
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String string = editText.getText().toString();
+
+                if (string.length() < 6) {
 
                     Toast.makeText(context, "Erro, o campo deve conter pelo menos 6 números", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    if (!string.equals("")) {
+                    onButtonPressed.buttonPressed(string.toUpperCase());
 
-                        onButtonPressed.buttonPressed(string);
+                    dialog.dismiss();
 
-                        if (adapter) {
+                }
+            }
+        });
 
-                            if (!historicoBens.contains(autoCompleteTextView.getText().toString())) {
+        neutralButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                                tinyDB.remove("historicoBens");
-                                historicoBens.add(autoCompleteTextView.getText().toString());
-                                tinyDB.putListString("historicoBens", historicoBens);
-                            }
-                        }
+                if (editText.getInputType() == InputType.TYPE_CLASS_NUMBER) {
 
-                        dialog.dismiss();
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
-                    } else {
+                    editText.setInputType(InputType.TYPE_CLASS_TEXT);
 
-                        Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
-                    }
+                    editText.setHint("Exemplo: ABC123");
+
+                    neutralButton.setText("N° Patrimonial");
+
+                    dialog.setMessage("Insira o número de série abaixo:");
+
+                } else {
+
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
+                    editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+                    editText.setHint("Exemplo: 012345");
+
+                    neutralButton.setText("N° de Série");
+
+                    dialog.setMessage("Insira o número patrimonial abaixo:");
+
                 }
             }
         });

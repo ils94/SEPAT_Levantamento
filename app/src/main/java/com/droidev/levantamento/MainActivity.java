@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        caixaDialogo.dialogoSimples(MainActivity.this, "Sair", "Deseja sair da aplicação?", "Sim", "Não", new CaixaDialogo.onButtonPressed() {
+        caixaDialogo.simples(MainActivity.this, "Sair", "Deseja sair da aplicação?", "Sim", "Não", new CaixaDialogo.onButtonPressed() {
             @Override
             public void buttonPressed(String i) {
 
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.manual:
 
-                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Modo manual", "Insira o número patrimonial abaixo:", "Exemplo: 012345", "Ok", "Cancelar", InputType.TYPE_CLASS_NUMBER, false, true, new CaixaDialogo.onButtonPressed() {
+                caixaDialogo.inserirManualmente(MainActivity.this, new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 
@@ -211,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.abrirArquivo:
 
-                caixaDialogo.dialogoSimples(MainActivity.this, "Abrir novo arquivo", "Abrir um novo arquivo irá apagar tudo da relação atual no App. Deseja continuar?", "Sim", "Não", new CaixaDialogo.onButtonPressed() {
+                caixaDialogo.simples(MainActivity.this, "Abrir novo arquivo", "Abrir um novo arquivo irá apagar tudo da relação atual no App. Deseja continuar?", "Sim", "Não", new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
                         if (i.equals("true")) {
@@ -231,7 +230,14 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.procurar:
 
-                caixaDialogo.dialogoSimplesComView(MainActivity.this, "Procurar", "Digite uma palavra abaixo para realçar.", "Exemplo: estabilizador", "Procurar", "Cancelar", InputType.TYPE_CLASS_TEXT, true, false, new CaixaDialogo.onButtonPressed() {
+                caixaDialogo.simplesComView(MainActivity.this,
+                        "Procurar",
+                        "Digite uma palavra abaixo para realçar.",
+                        "Exemplo: estabilizador",
+                        "Procurar",
+                        "Cancelar",
+                        true,
+                        new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
 
@@ -256,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.forcarSalvar:
 
-                caixaDialogo.dialogoSimples(MainActivity.this, "Salvar", "Salvar todas as alterações na relação atual?", "Sim", "Não", new CaixaDialogo.onButtonPressed() {
+                caixaDialogo.simples(MainActivity.this, "Salvar", "Salvar todas as alterações na relação atual?", "Sim", "Não", new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {
                         if (i.equals("true")) {
@@ -327,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (intentResult.getContents().contains("pastebin")) {
 
-                    caixaDialogo.dialogoSimples(MainActivity.this, "Carregar nova relação", "Carregar uma nova relação do pastebin?", "Sim", "Cancelar", new CaixaDialogo.onButtonPressed() {
+                    caixaDialogo.simples(MainActivity.this, "Carregar nova relação", "Carregar uma nova relação do pastebin?", "Sim", "Cancelar", new CaixaDialogo.onButtonPressed() {
                         @Override
                         public void buttonPressed(String i) {
 

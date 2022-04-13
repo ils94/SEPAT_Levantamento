@@ -19,7 +19,7 @@
             android:name=".ScannerActivity"
             android:exported="false" />
         <activity
-            android:name=".NaoAchadosActivity"
+            android:name=".NaoLocalizadosActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

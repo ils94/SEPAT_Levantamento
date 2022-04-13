@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.InputType;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,14 +24,12 @@ public class Arquivos {
 
     private void exportarDados(Activity activity, String dados, String extensao) {
 
-        caixaDialogo.dialogoSimplesComView(activity,
+        caixaDialogo.simplesComView(activity,
                 "Enviar relatório",
                 "Nome do arquivo:",
                 "Exemplo: Deposito 2 / SAMS UL 580",
                 "Enviar",
                 "Cancelar",
-                InputType.TYPE_CLASS_TEXT,
-                false,
                 false,
                 new CaixaDialogo.onButtonPressed() {
             @Override

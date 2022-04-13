@@ -302,7 +302,14 @@ public class Pastebin {
                                 }
                             } else {
 
-                                caixaDialogo.dialogoSimplesComView(activity, "Nome da relação", "Insira o nome da relação abaixo:", "Exemplo: SEPAT", "Ok", "Cancelar", InputType.TYPE_CLASS_TEXT, false, false, new CaixaDialogo.onButtonPressed() {
+                                caixaDialogo.simplesComView(activity,
+                                        "Nome da relação",
+                                        "Insira o nome da relação abaixo:",
+                                        "Exemplo: SEPAT",
+                                        "Ok",
+                                        "Cancelar",
+                                        false,
+                                        new CaixaDialogo.onButtonPressed() {
                                     @Override
                                     public void buttonPressed(String i) {
 

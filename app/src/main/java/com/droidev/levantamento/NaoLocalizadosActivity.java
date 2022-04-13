@@ -2,7 +2,6 @@ package com.droidev.levantamento;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class NaoAchadosActivity extends AppCompatActivity {
+public class NaoLocalizadosActivity extends AppCompatActivity {
 
     TextView naoAchados, naoAchadosTV;
     ArrayList arrayList;
@@ -64,7 +63,7 @@ public class NaoAchadosActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.copiarNaoAchados:
 
-                utils.copiarTexto(NaoAchadosActivity.this,
+                utils.copiarTexto(NaoLocalizadosActivity.this,
                         "Bens que faltam checar - "
                                 + j + "\n\n"
                                 + naoAchados.getText().toString());
@@ -73,15 +72,13 @@ public class NaoAchadosActivity extends AppCompatActivity {
 
             case R.id.procurarNaoAchados:
 
-                caixaDialogo.dialogoSimplesComView(NaoAchadosActivity.this,
+                caixaDialogo.simplesComView(NaoLocalizadosActivity.this,
                         "Procurar",
                         "Digite uma palavra abaixo para realçar.",
                         "Exemplo: estabilizador",
                         "Procurar",
                         "Cancelar",
-                        InputType.TYPE_CLASS_TEXT,
                         true,
-                        false,
                         new CaixaDialogo.onButtonPressed() {
                     @Override
                     public void buttonPressed(String i) {

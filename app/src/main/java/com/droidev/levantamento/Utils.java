@@ -231,7 +231,7 @@ public class Utils {
                 }
             }).start();
 
-            Intent myIntent = new Intent(context, NaoAchadosActivity.class);
+            Intent myIntent = new Intent(context, NaoLocalizadosActivity.class);
             myIntent.putExtra("key", arrayList);
             context.startActivity(myIntent);
 
