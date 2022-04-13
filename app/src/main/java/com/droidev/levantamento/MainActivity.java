@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!nomeArquivo.equals("")) {
 
-            setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
+            setTitle(nomeArquivo.toUpperCase());
         }
 
         String content_bens = utils.recuperarDaMemoria(MainActivity.this, "fora_da_relacao.txt");
@@ -416,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            nomeArquivo = nomeArquivo.replace(".json", "").replace(".csv", "").replace(" ", "_").toUpperCase();
+            nomeArquivo = nomeArquivo.replace(".json", "").replace(".csv", "").toUpperCase();
 
             setTitle(nomeArquivo);
         }
