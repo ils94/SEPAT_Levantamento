@@ -416,14 +416,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            setTitle(nomeArquivo.replace(".json", "").replace(".csv", "").replace(" ", "_").toUpperCase());
+            nomeArquivo = nomeArquivo.replace(".json", "").replace(".csv", "").replace(" ", "_").toUpperCase();
+
+            setTitle(nomeArquivo);
         }
 
         if (requestCode == CRIAR_JSON) {
             if (resultCode == RESULT_OK) {
                 try {
 
-                    JSONObject jsonObject = json.criarJson(MainActivity.this, nomeArquivo, foraDaRelacao.getText().toString(), relacao.getText().toString());
+                    JSONObject jsonObject = json.criarJson(MainActivity.this, getTitle().toString(), foraDaRelacao.getText().toString(), relacao.getText().toString());
 
                     Uri uri = data.getData();
 
@@ -500,7 +502,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void manterNaMemoria() {
 
-        utils.manterNaMemoria(MainActivity.this, nomeArquivo, "nome_arquivo.txt");
+        utils.manterNaMemoria(MainActivity.this, getTitle().toString(), "nome_arquivo.txt");
 
         utils.manterNaMemoria(MainActivity.this, foraDaRelacao.getText().toString(), "fora_da_relacao.txt");
 
