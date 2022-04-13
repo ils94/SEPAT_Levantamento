@@ -122,7 +122,7 @@ public class CaixaDialogo {
 
                 String string = editText.getText().toString();
 
-                if (string.length() < 6) {
+                if (string.length() < 6 && editText.getInputType() == InputType.TYPE_CLASS_NUMBER) {
 
                     Toast.makeText(context, "Erro, o campo deve conter pelo menos 6 números", Toast.LENGTH_SHORT).show();
                 } else {
@@ -139,10 +139,9 @@ public class CaixaDialogo {
             @Override
             public void onClick(View v) {
 
-                if (editText.getInputType() == InputType.TYPE_CLASS_NUMBER) {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                if (editText.getInputType() == InputType.TYPE_CLASS_NUMBER) {
 
                     editText.setInputType(InputType.TYPE_CLASS_TEXT);
 
@@ -154,9 +153,6 @@ public class CaixaDialogo {
 
                 } else {
 
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-
                     editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
                     editText.setHint("Exemplo: 012345");
@@ -164,8 +160,9 @@ public class CaixaDialogo {
                     neutralButton.setText("N° de Série");
 
                     dialog.setMessage("Insira o número patrimonial abaixo:");
-
                 }
+
+                imm.showSoftInput(lay, InputMethodManager.SHOW_IMPLICIT);
             }
         });
     }
