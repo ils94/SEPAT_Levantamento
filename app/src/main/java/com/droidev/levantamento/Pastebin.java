@@ -286,7 +286,7 @@ public class Pastebin {
 
                                     textView1.setText(jsonObject.getString("relacao"));
 
-                                    activity.setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
+                                    activity.setTitle(nomeArquivo.toUpperCase());
 
                                     utils.contadorLinhas(editText, textView1, textView2, textView3);
 
@@ -321,7 +321,7 @@ public class Pastebin {
                                         textView1.setText("");
                                         textView1.setText(sb.toString().replace(",", ": ") + "\n");
 
-                                        activity.setTitle(nomeArquivo.replace(" ", "_").toUpperCase());
+                                        activity.setTitle(nomeArquivo.toUpperCase());
 
                                         utils.contadorLinhas(editText, textView1, textView2, textView3);
 
