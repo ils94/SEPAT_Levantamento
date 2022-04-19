@@ -38,7 +38,7 @@ public class NaoLocalizadosActivity extends AppCompatActivity {
         naoAchados.setMovementMethod(new ScrollingMovementMethod());
 
         Intent intent = getIntent();
-        arrayList = intent.getStringArrayListExtra("key");
+        arrayList = intent.getStringArrayListExtra("arraylist");
 
         for (int i = 0; i < arrayList.size(); i++) {
 

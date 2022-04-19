@@ -213,14 +213,14 @@ public class Utils {
 
     public void separarNaoAchados(Context context, TextView textView) {
 
-        try {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-            String[] separado = textView.getText().toString().split("\n");
-            ArrayList arrayList = new ArrayList<>(Arrays.asList(separado));
+                try {
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+                    String[] separado = textView.getText().toString().split("\n");
+                    ArrayList arrayList = new ArrayList<>(Arrays.asList(separado));
 
                     for (String s : separado) {
                         if (s.contains("[OK]")) {
@@ -228,16 +228,16 @@ public class Utils {
                             arrayList.remove(s);
                         }
                     }
+
+                    Intent myIntent = new Intent(context, NaoLocalizadosActivity.class);
+                    myIntent.putExtra("arraylist", arrayList);
+                    context.startActivity(myIntent);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
                 }
-            }).start();
-
-            Intent myIntent = new Intent(context, NaoLocalizadosActivity.class);
-            myIntent.putExtra("key", arrayList);
-            context.startActivity(myIntent);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
-        }
+            }
+        }).start();
     }
 }
