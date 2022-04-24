@@ -14,13 +14,15 @@
         android:theme="@style/Theme.Levantamento">
         <activity
             android:name=".QRCodeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ScannerActivity"
             android:exported="false" />
         <activity
             android:name=".NaoLocalizadosActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
