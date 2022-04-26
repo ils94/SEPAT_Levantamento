@@ -12,8 +12,6 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Arquivos {
 
@@ -31,24 +29,21 @@ public class Arquivos {
                 "Enviar",
                 "Cancelar",
                 false,
-                new CaixaDialogo.onButtonPressed() {
-            @Override
-            public void buttonPressed(String i) {
+                i -> {
 
-                String[] informacao;
+                    String[] informacao;
 
-                informacao = dados.split("\n");
+                    informacao = dados.split("\n");
 
-                StringBuilder data = new StringBuilder();
+                    StringBuilder data = new StringBuilder();
 
-                for (String dado : informacao) {
+                    for (String dado : informacao) {
 
-                    data.append(dado + "\n");
-                }
+                        data.append(dado).append("\n");
+                    }
 
-                enviarArquivo(activity, i, data.toString(), extensao);
-            }
-        });
+                    enviarArquivo(activity, i, data.toString(), extensao);
+                });
     }
 
     public void enviarArquivo(Context context, String file, String content, String extension) {
@@ -89,9 +84,8 @@ public class Arquivos {
     public void relatorioCompleto(Activity activity, TextView textView, EditText editText) {
 
         String[] separado = textView.getText().toString().split("\n");
-        ArrayList arrayList = new ArrayList<>(Arrays.asList(separado));
 
-        String listaNaoAchados = "";
+        StringBuilder listaNaoAchados = new StringBuilder();
         int quantidadeForaRelacao;
 
         String[] listaForaRelacao = editText.getText().toString().split("\n");
@@ -112,7 +106,7 @@ public class Arquivos {
 
                 j = j + 1;
 
-                listaNaoAchados += s + "\n";
+                listaNaoAchados.append(s).append("\n");
             }
         }
 

@@ -1,10 +1,10 @@
 package com.droidev.levantamento;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.InputType;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -87,84 +87,69 @@ public class Pastebin {
 
     public void gerarQRCode(Activity activity, String content) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        new Thread(() -> {
 
-                TinyDB tinyDB = new TinyDB(activity.getBaseContext());
+            TinyDB tinyDB = new TinyDB(activity.getBaseContext());
 
-                String login = tinyDB.getString("login");
-                String senha = tinyDB.getString("senha");
-                String devKey = tinyDB.getString("devKey");
+            String login = tinyDB.getString("login");
+            String senha = tinyDB.getString("senha");
+            String devKey = tinyDB.getString("devKey");
 
-                if (login.isEmpty() || senha.isEmpty() || devKey.isEmpty()) {
+            if (login.isEmpty() || senha.isEmpty() || devKey.isEmpty()) {
 
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                activity.runOnUiThread(() -> Toast.makeText(activity.getBaseContext(), "Erro, salve uma conta pastebin primeiro", Toast.LENGTH_SHORT).show());
 
-                            Toast.makeText(activity.getBaseContext(), "Erro, salve uma conta pastebin primeiro", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            } else {
 
-                } else {
+                try {
 
-                    try {
+                    String userKey = gerarChave(login, senha, devKey);
 
-                        String userKey = gerarChave(login, senha, devKey);
+                    URL url = new URL("https://pastebin.com/api/api_post.php");
+                    URLConnection con = url.openConnection();
+                    HttpURLConnection http = (HttpURLConnection) con;
+                    http.setRequestMethod("POST");
+                    http.setDoOutput(true);
+                    http.setDoInput(true);
+                    Map<String, String> arguments = new HashMap<>();
 
-                        URL url = new URL("https://pastebin.com/api/api_post.php");
-                        URLConnection con = url.openConnection();
-                        HttpURLConnection http = (HttpURLConnection) con;
-                        http.setRequestMethod("POST");
-                        http.setDoOutput(true);
-                        http.setDoInput(true);
-                        Map<String, String> arguments = new HashMap<>();
+                    arguments.put("api_dev_key", devKey);
+                    arguments.put("api_user_key", userKey);
+                    arguments.put("api_option", "paste");
+                    arguments.put("api_paste_code", content);
+                    arguments.put("api_paste_expire_date", "10M");
 
-                        arguments.put("api_dev_key", devKey);
-                        arguments.put("api_user_key", userKey);
-                        arguments.put("api_option", "paste");
-                        arguments.put("api_paste_code", content);
-                        arguments.put("api_paste_expire_date", "10M");
+                    StringJoiner sj = new StringJoiner("&");
 
-                        StringJoiner sj = new StringJoiner("&");
+                    for (Map.Entry<String, String> entry : arguments.entrySet())
+                        sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
+                                + URLEncoder.encode(entry.getValue(), "UTF-8"));
 
-                        for (Map.Entry<String, String> entry : arguments.entrySet())
-                            sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
-                                    + URLEncoder.encode(entry.getValue(), "UTF-8"));
+                    byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
+                    int length = out.length;
 
-                        byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
-                        int length = out.length;
+                    http.setFixedLengthStreamingMode(length);
+                    http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                    http.connect();
 
-                        http.setFixedLengthStreamingMode(length);
-                        http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-                        http.connect();
+                    OutputStream os = http.getOutputStream();
+                    os.write(out);
 
-                        OutputStream os = http.getOutputStream();
-                        os.write(out);
+                    InputStream is = http.getInputStream();
 
-                        InputStream is = http.getInputStream();
+                    String result = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
 
-                        String result = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+                    System.out.println(result);
 
-                        System.out.println(result);
+                    Intent myIntent = new Intent(activity.getBaseContext(), QRCodeActivity.class);
+                    myIntent.putExtra("content", result);
+                    activity.startActivity(myIntent);
 
-                        Intent myIntent = new Intent(activity.getBaseContext(), QRCodeActivity.class);
-                        myIntent.putExtra("content", result);
-                        activity.startActivity(myIntent);
+                } catch (IOException e) {
 
-                    } catch (IOException e) {
+                    e.printStackTrace();
 
-                        e.printStackTrace();
-
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                Toast.makeText(activity.getBaseContext(), "Ocorreu um erro", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                    activity.runOnUiThread(() -> Toast.makeText(activity.getBaseContext(), "Ocorreu um erro", Toast.LENGTH_SHORT).show());
                 }
             }
         }).start();
@@ -209,82 +194,106 @@ public class Pastebin {
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
 
-        positiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        positiveButton.setOnClickListener(v -> {
 
-                String loginString = login.getText().toString();
-                String senhaString = senha.getText().toString();
-                String devKeyString = devKey.getText().toString();
+            String loginString = login.getText().toString();
+            String senhaString = senha.getText().toString();
+            String devKeyString = devKey.getText().toString();
 
-                if (!loginString.equals("") && !senhaString.equals("") && !devKeyString.equals("")) {
+            if (!loginString.equals("") && !senhaString.equals("") && !devKeyString.equals("")) {
 
-                    tinyDB.remove("login");
-                    tinyDB.remove("senha");
-                    tinyDB.remove("devKey");
+                tinyDB.remove("login");
+                tinyDB.remove("senha");
+                tinyDB.remove("devKey");
 
-                    tinyDB.putString("login", loginString);
-                    tinyDB.putString("senha", senhaString);
-                    tinyDB.putString("devKey", devKeyString);
+                tinyDB.putString("login", loginString);
+                tinyDB.putString("senha", senhaString);
+                tinyDB.putString("devKey", devKeyString);
 
-                    Toast.makeText(context, "Conta salva", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Conta salva", Toast.LENGTH_SHORT).show();
 
-                    dialog.dismiss();
+                dialog.dismiss();
 
-                } else {
+            } else {
 
-                    Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
             }
         });
 
-        neutralButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        neutralButton.setOnClickListener(v -> {
 
-                login.setText("");
-                senha.setText("");
-                devKey.setText("");
-            }
+            login.setText("");
+            senha.setText("");
+            devKey.setText("");
         });
     }
 
+    @SuppressLint("SetTextI18n")
     public void pastebin(Activity activity, String url, EditText editText, TextView textView1, TextView textView2, TextView textView3) {
 
         editText.setText("Buscando do pastebin...");
         textView1.setText("Buscando do pastebin...");
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        new Thread(() -> {
 
-                final StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
 
-                try {
+            try {
 
-                    Document doc = Jsoup.connect(url).get();
+                Document doc = Jsoup.connect(url).get();
 
-                    String text = doc.select("textarea[class=textarea]").text();
+                String text = doc.select("textarea[class=textarea]").text();
 
-                    sb.append(text);
+                sb.append(text);
 
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                activity.runOnUiThread(() -> {
 
-                            if (sb.toString().contains("nomeArquivo")) {
+                    if (sb.toString().contains("nomeArquivo")) {
 
-                                try {
+                        try {
 
-                                    JSONObject jsonObject = new JSONObject(String.valueOf(sb));
+                            JSONObject jsonObject = new JSONObject(String.valueOf(sb));
 
-                                    mainActivity.nomeArquivo = jsonObject.getString("nomeArquivo");
+                            mainActivity.nomeArquivo = jsonObject.getString("nomeArquivo");
+
+                            nomeArquivo = mainActivity.nomeArquivo;
+
+                            editText.setText(jsonObject.getString("foraRelacao"));
+
+                            textView1.setText(jsonObject.getString("relacao"));
+
+                            activity.setTitle(nomeArquivo.toUpperCase());
+
+                            utils.contadorLinhas(editText, textView1, textView2, textView3);
+
+                            utils.manterNaMemoria(activity.getBaseContext(), nomeArquivo, "nome_arquivo.txt");
+
+                            utils.manterNaMemoria(activity.getBaseContext(), editText.getText().toString(), "fora_da_relacao.txt");
+
+                            utils.manterNaMemoria(activity.getBaseContext(), textView1.getText().toString(), "relacao.txt");
+
+                        } catch (JSONException e) {
+
+                            Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+
+                        caixaDialogo.simplesComView(activity,
+                                "Nome da relação",
+                                "Insira o nome da relação abaixo:",
+                                "Exemplo: SEPAT",
+                                "Ok",
+                                "Cancelar",
+                                false,
+                                i -> {
+
+                                    mainActivity.nomeArquivo = i;
 
                                     nomeArquivo = mainActivity.nomeArquivo;
 
-                                    editText.setText(jsonObject.getString("foraRelacao"));
-
-                                    textView1.setText(jsonObject.getString("relacao"));
+                                    editText.setText("");
+                                    textView1.setText("");
+                                    textView1.setText(sb.toString().replace(",", ": ") + "\n");
 
                                     activity.setTitle(nomeArquivo.toUpperCase());
 
@@ -295,67 +304,16 @@ public class Pastebin {
                                     utils.manterNaMemoria(activity.getBaseContext(), editText.getText().toString(), "fora_da_relacao.txt");
 
                                     utils.manterNaMemoria(activity.getBaseContext(), textView1.getText().toString(), "relacao.txt");
-
-                                } catch (JSONException e) {
-
-                                    Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-
-                                caixaDialogo.simplesComView(activity,
-                                        "Nome da relação",
-                                        "Insira o nome da relação abaixo:",
-                                        "Exemplo: SEPAT",
-                                        "Ok",
-                                        "Cancelar",
-                                        false,
-                                        new CaixaDialogo.onButtonPressed() {
-                                    @Override
-                                    public void buttonPressed(String i) {
-
-                                        mainActivity.nomeArquivo = i;
-
-                                        nomeArquivo = mainActivity.nomeArquivo;
-
-                                        editText.setText("");
-                                        textView1.setText("");
-                                        textView1.setText(sb.toString().replace(",", ": ") + "\n");
-
-                                        activity.setTitle(nomeArquivo.toUpperCase());
-
-                                        utils.contadorLinhas(editText, textView1, textView2, textView3);
-
-                                        utils.manterNaMemoria(activity.getBaseContext(), nomeArquivo, "nome_arquivo.txt");
-
-                                        utils.manterNaMemoria(activity.getBaseContext(), editText.getText().toString(), "fora_da_relacao.txt");
-
-                                        utils.manterNaMemoria(activity.getBaseContext(), textView1.getText().toString(), "relacao.txt");
-                                    }
                                 });
-                            }
-                        }
-                    });
+                    }
+                });
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
 
-                    editText.post(new Runnable() {
-                        @Override
-                        public void run() {
+                editText.post(() -> editText.setText(e.toString()));
 
-                            editText.setText(e.toString());
-
-                        }
-                    });
-
-                    textView1.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            textView1.setText(e.toString());
-                        }
-                    });
-                }
+                textView1.post(() -> textView1.setText(e.toString()));
             }
         }).start();
     }

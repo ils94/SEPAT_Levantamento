@@ -1,7 +1,9 @@
 package com.droidev.levantamento;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
@@ -69,6 +71,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -153,7 +156,7 @@ public class ScannerActivity extends AppCompatActivity implements DecoratedBarco
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         capture.onSaveInstanceState(outState);
     }

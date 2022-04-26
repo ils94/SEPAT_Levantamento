@@ -1,5 +1,6 @@
 package com.droidev.levantamento;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -29,62 +30,54 @@ public class Utils {
 
     private Boolean boo = false;
 
+    @SuppressLint("SetTextI18n")
     public void realcarTexto(TextView tv, String textToHighlight, TextView tv2) {
 
         tv2.setText("Procurando...");
 
         final int[] count = {0};
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        new Thread(() -> {
 
-                tv.post(new Runnable() {
-                    @Override
-                    public void run() {
+            tv.post(() -> {
 
-                        SpannableString spannableString = new SpannableString(tv.getText().toString());
-                        BackgroundColorSpan backgroundSpan = new BackgroundColorSpan(Color.WHITE);
-                        spannableString.setSpan(backgroundSpan, 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                SpannableString spannableString = new SpannableString(tv.getText().toString());
+                BackgroundColorSpan backgroundSpan = new BackgroundColorSpan(Color.WHITE);
+                spannableString.setSpan(backgroundSpan, 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                        tv.setText(spannableString);
+                tv.setText(spannableString);
 
-                        String tvt = tv.getText().toString();
+                String tvt = tv.getText().toString();
 
-                        int ofe = tvt.indexOf(textToHighlight, 0);
-                        Spannable wordToSpan = new SpannableString(tv.getText());
-                        for (int ofs = 0; ofs < tvt.length() && ofe != -1; ofs = ofe + 1) {
-                            ofe = tvt.indexOf(textToHighlight, ofs);
+                int ofe = tvt.indexOf(textToHighlight);
+                Spannable wordToSpan = new SpannableString(tv.getText());
+                for (int ofs = 0; ofs < tvt.length() && ofe != -1; ofs = ofe + 1) {
+                    ofe = tvt.indexOf(textToHighlight, ofs);
 
-                            count[0] = count[0] + 1;
+                    count[0] = count[0] + 1;
 
-                            if (ofe == -1)
-                                break;
-                            else {
+                    if (ofe == -1)
+                        break;
+                    else {
 
-                                wordToSpan.setSpan(new BackgroundColorSpan(Color.YELLOW), ofe, ofe + textToHighlight.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                tv.setText(wordToSpan, TextView.BufferType.SPANNABLE);
-                            }
-                        }
-
-                        count[0] = count[0] - 1;
+                        wordToSpan.setSpan(new BackgroundColorSpan(Color.YELLOW), ofe, ofe + textToHighlight.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        tv.setText(wordToSpan, TextView.BufferType.SPANNABLE);
                     }
-                });
+                }
 
-                tv2.post(new Runnable() {
-                    @Override
-                    public void run() {
+                count[0] = count[0] - 1;
+            });
 
-                        if (count[0] < 0) {
+            tv2.post(() -> {
 
-                            tv2.setText("ACHADOS: " + 0);
-                        } else {
+                if (count[0] < 0) {
 
-                            tv2.setText("ACHADOS: " + count[0]);
-                        }
-                    }
-                });
-            }
+                    tv2.setText("ACHADOS: " + 0);
+                } else {
+
+                    tv2.setText("ACHADOS: " + count[0]);
+                }
+            });
         }).start();
     }
 
@@ -122,6 +115,7 @@ public class Utils {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void contadorLinhas(EditText editText, TextView textView1, TextView textView2, TextView textView3) {
 
         int contadorForaDaRelacao, contadorRelacao;
@@ -213,30 +207,27 @@ public class Utils {
 
     public void separarNaoAchados(Context context, TextView textView) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        new Thread(() -> {
 
-                try {
+            try {
 
-                    String[] separado = textView.getText().toString().split("\n");
-                    ArrayList arrayList = new ArrayList<>(Arrays.asList(separado));
+                String[] separado = textView.getText().toString().split("\n");
+                ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(separado));
 
-                    for (String s : separado) {
-                        if (s.contains("[OK]")) {
+                for (String s : separado) {
+                    if (s.contains("[OK]")) {
 
-                            arrayList.remove(s);
-                        }
+                        arrayList.remove(s);
                     }
-
-                    Intent myIntent = new Intent(context, NaoLocalizadosActivity.class);
-                    myIntent.putExtra("arraylist", arrayList);
-                    context.startActivity(myIntent);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
                 }
+
+                Intent myIntent = new Intent(context, NaoLocalizadosActivity.class);
+                myIntent.putExtra("arraylist", arrayList);
+                context.startActivity(myIntent);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
             }
         }).start();
     }

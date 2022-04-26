@@ -1,9 +1,9 @@
 package com.droidev.levantamento;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.text.InputType;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -53,45 +53,43 @@ public class CaixaDialogo {
         historicoBens = tinyDB.getListString("historicoBens");
         historicoUL = tinyDB.getListString("historicoUL");
 
-        ArrayAdapter<String> adapterBens = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, historicoBens);
+        ArrayAdapter<String> adapterBens = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, historicoBens);
         nome.setAdapter(adapterBens);
 
-        ArrayAdapter<String> adapterUL = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, historicoUL);
+        ArrayAdapter<String> adapterUL = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, historicoUL);
         local.setAdapter(adapterUL);
 
         Button positiveButton = dialogo.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
 
-        positiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        positiveButton.setOnClickListener(v -> {
 
-                if (!nome.getText().toString().equals("") && !local.getText().toString().equals("")) {
+            if (!nome.getText().toString().equals("") && !local.getText().toString().equals("")) {
 
-                    onButtonPressed.buttonPressed(nome.getText().toString().toUpperCase() + " - " + local.getText().toString().toUpperCase() + ": " + patrimonio + "\n");
+                onButtonPressed.buttonPressed(nome.getText().toString().toUpperCase() + " - " + local.getText().toString().toUpperCase() + ": " + patrimonio + "\n");
 
-                    if (!historicoBens.contains(nome.getText().toString())) {
+                if (!historicoBens.contains(nome.getText().toString())) {
 
-                        tinyDB.remove("historicoBens");
-                        historicoBens.add(nome.getText().toString());
-                        tinyDB.putListString("historicoBens", historicoBens);
-                    }
-
-                    if (!historicoUL.contains(local.getText().toString())) {
-
-                        tinyDB.remove("historicoUL");
-                        historicoUL.add(local.getText().toString());
-                        tinyDB.putListString("historicoUL", historicoUL);
-                    }
-
-                    dialogo.dismiss();
-                } else {
-
-                    Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
+                    tinyDB.remove("historicoBens");
+                    historicoBens.add(nome.getText().toString());
+                    tinyDB.putListString("historicoBens", historicoBens);
                 }
+
+                if (!historicoUL.contains(local.getText().toString())) {
+
+                    tinyDB.remove("historicoUL");
+                    historicoUL.add(local.getText().toString());
+                    tinyDB.putListString("historicoUL", historicoUL);
+                }
+
+                dialogo.dismiss();
+            } else {
+
+                Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    @SuppressLint("SetTextI18n")
     public void inserirManualmente(Context context, onButtonPressed onButtonPressed) {
 
         EditText editText = new AutoCompleteTextView(context);
@@ -116,54 +114,48 @@ public class CaixaDialogo {
 
         Button neutralButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL);
 
-        positiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        positiveButton.setOnClickListener(v -> {
 
-                String string = editText.getText().toString();
+            String string = editText.getText().toString();
 
-                if (string.length() < 6 && editText.getInputType() == InputType.TYPE_CLASS_NUMBER) {
+            if (string.length() < 6 && editText.getInputType() == InputType.TYPE_CLASS_NUMBER) {
 
-                    Toast.makeText(context, "Erro, o campo deve conter pelo menos 6 números", Toast.LENGTH_SHORT).show();
-                } else {
+                Toast.makeText(context, "Erro, o campo deve conter pelo menos 6 números", Toast.LENGTH_SHORT).show();
+            } else {
 
-                    onButtonPressed.buttonPressed(string.toUpperCase());
+                onButtonPressed.buttonPressed(string.toUpperCase());
 
-                    dialog.dismiss();
+                dialog.dismiss();
 
-                }
             }
         });
 
-        neutralButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        neutralButton.setOnClickListener(v -> {
 
-                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                if (editText.getInputType() == InputType.TYPE_CLASS_NUMBER) {
+            if (editText.getInputType() == InputType.TYPE_CLASS_NUMBER) {
 
-                    editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                editText.setInputType(InputType.TYPE_CLASS_TEXT);
 
-                    editText.setHint("Exemplo: ABC123");
+                editText.setHint("Exemplo: ABC123");
 
-                    neutralButton.setText("N° Patrimonial");
+                neutralButton.setText("N° Patrimonial");
 
-                    dialog.setMessage("Insira o número de série abaixo:");
+                dialog.setMessage("Insira o número de série abaixo:");
 
-                } else {
+            } else {
 
-                    editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-                    editText.setHint("Exemplo: 012345");
+                editText.setHint("Exemplo: 012345");
 
-                    neutralButton.setText("N° de Série");
+                neutralButton.setText("N° de Série");
 
-                    dialog.setMessage("Insira o número patrimonial abaixo:");
-                }
-
-                imm.showSoftInput(lay, InputMethodManager.SHOW_IMPLICIT);
+                dialog.setMessage("Insira o número patrimonial abaixo:");
             }
+
+            imm.showSoftInput(lay, InputMethodManager.SHOW_IMPLICIT);
         });
     }
 
@@ -179,14 +171,11 @@ public class CaixaDialogo {
 
         Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
 
-        positiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        positiveButton.setOnClickListener(v -> {
 
-                onButtonPressed.buttonPressed("true");
+            onButtonPressed.buttonPressed("true");
 
-                dialog.dismiss();
-            }
+            dialog.dismiss();
         });
     }
 
@@ -213,37 +202,34 @@ public class CaixaDialogo {
 
         historicoBens = tinyDB.getListString("historicoBens");
 
-        ArrayAdapter<String> adapterBens = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, historicoBens);
+        ArrayAdapter<String> adapterBens = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, historicoBens);
         autoCompleteTextView.setAdapter(adapterBens);
 
         Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
 
-        positiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        positiveButton.setOnClickListener(v -> {
 
-                String string = autoCompleteTextView.getText().toString();
+            String string = autoCompleteTextView.getText().toString();
 
-                if (!string.equals("")) {
+            if (!string.equals("")) {
 
-                    onButtonPressed.buttonPressed(string);
+                onButtonPressed.buttonPressed(string);
 
-                    if (adapter) {
+                if (adapter) {
 
-                        if (!historicoBens.contains(autoCompleteTextView.getText().toString())) {
+                    if (!historicoBens.contains(autoCompleteTextView.getText().toString())) {
 
-                            tinyDB.remove("historicoBens");
-                            historicoBens.add(autoCompleteTextView.getText().toString());
-                            tinyDB.putListString("historicoBens", historicoBens);
-                        }
+                        tinyDB.remove("historicoBens");
+                        historicoBens.add(autoCompleteTextView.getText().toString());
+                        tinyDB.putListString("historicoBens", historicoBens);
                     }
-
-                    dialog.dismiss();
-
-                } else {
-
-                    Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
                 }
+
+                dialog.dismiss();
+
+            } else {
+
+                Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
             }
         });
     }

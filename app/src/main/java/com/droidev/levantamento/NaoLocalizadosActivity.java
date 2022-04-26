@@ -1,5 +1,6 @@
 package com.droidev.levantamento;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -20,6 +21,7 @@ public class NaoLocalizadosActivity extends AppCompatActivity {
     Utils utils;
     CaixaDialogo caixaDialogo;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class NaoLocalizadosActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -79,13 +82,7 @@ public class NaoLocalizadosActivity extends AppCompatActivity {
                         "Procurar",
                         "Cancelar",
                         true,
-                        new CaixaDialogo.onButtonPressed() {
-                    @Override
-                    public void buttonPressed(String i) {
-
-                        utils.realcarTexto(naoAchados, i.toUpperCase(), naoAchadosTV);
-                    }
-                });
+                        i -> utils.realcarTexto(naoAchados, i.toUpperCase(), naoAchadosTV));
 
                 return true;
 
