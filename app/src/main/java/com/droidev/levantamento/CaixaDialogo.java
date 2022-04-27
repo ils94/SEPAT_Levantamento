@@ -2,6 +2,7 @@ package com.droidev.levantamento;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.text.InputType;
 import android.view.inputmethod.InputMethodManager;
@@ -11,8 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 
@@ -41,7 +40,7 @@ public class CaixaDialogo {
         lay.addView(nome);
         lay.addView(local);
 
-        androidx.appcompat.app.AlertDialog dialogo = new androidx.appcompat.app.AlertDialog.Builder(context)
+        AlertDialog dialogo = new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle("Não encontrado")
                 .setMessage(patrimonio + " não foi encontrado na relação. Digite o nome do bem, e o código da U.L onde ele foi encontrado:")
@@ -61,7 +60,7 @@ public class CaixaDialogo {
         ArrayAdapter<String> adapterUL = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, historicoUL);
         local.setAdapter(adapterUL);
 
-        Button positiveButton = dialogo.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
+        Button positiveButton = dialogo.getButton(AlertDialog.BUTTON_POSITIVE);
 
         positiveButton.setOnClickListener(v -> {
 
@@ -102,7 +101,7 @@ public class CaixaDialogo {
         lay.setOrientation(LinearLayout.VERTICAL);
         lay.addView(editText);
 
-        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(context)
+        AlertDialog dialog = new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle("Modo manual")
                 .setMessage("Insira o número patrimonial abaixo:")
@@ -112,9 +111,9 @@ public class CaixaDialogo {
                 .setView(lay)
                 .show();
 
-        Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
+        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
 
-        Button neutralButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL);
+        Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
 
         positiveButton.setOnClickListener(v -> {
 
@@ -163,7 +162,7 @@ public class CaixaDialogo {
 
     public void simples(Context context, String title, String message, String positive, String negative, onButtonPressed onButtonPressed) {
 
-        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(context)
+        AlertDialog dialog = new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle(title)
                 .setMessage(message)
@@ -171,8 +170,8 @@ public class CaixaDialogo {
                 .setNegativeButton(negative, null)
                 .show();
 
-        Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
-        Button negativeButton = dialog.getButton((androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE));
+        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        Button negativeButton = dialog.getButton((AlertDialog.BUTTON_NEGATIVE));
 
         positiveButton.setOnClickListener(v -> {
 
@@ -199,7 +198,7 @@ public class CaixaDialogo {
         lay.setOrientation(LinearLayout.VERTICAL);
         lay.addView(autoCompleteTextView);
 
-        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(context)
+        AlertDialog dialog = new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle(title)
                 .setMessage(message)
@@ -215,7 +214,7 @@ public class CaixaDialogo {
         ArrayAdapter<String> adapterBens = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, historicoBens);
         autoCompleteTextView.setAdapter(adapterBens);
 
-        Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
+        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
 
         positiveButton.setOnClickListener(v -> {
 
