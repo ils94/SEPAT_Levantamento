@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.gerarQrCode:
 
-                pastebin.gerarQRCode(MainActivity.this, json.criarJson(MainActivity.this, getTitle().toString(), foraDaRelacao.getText().toString(), relacao.getText().toString()).toString());
+                pastebin.checarQrCode(MainActivity.this, json.criarJson(MainActivity.this, getTitle().toString(), foraDaRelacao.getText().toString(), relacao.getText().toString()).toString());
 
                 return true;
 

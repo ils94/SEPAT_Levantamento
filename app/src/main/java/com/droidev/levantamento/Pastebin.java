@@ -19,6 +19,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -85,6 +86,32 @@ public class Pastebin {
         return result;
     }
 
+    public void checarQrCode(Activity activity, String content) {
+
+        File path = activity.getFilesDir();
+        File qrCode = new File(path, "QRCode.png");
+
+        if (qrCode.isFile()) {
+
+            caixaDialogo.simples(activity, "Qr Code existente encontrado", "Foi encontrado um QR Code criado anteriormente, deseja abri-lo?", "Sim", "Não", i -> {
+
+                if (i.equals("true")) {
+
+                    Intent myIntent = new Intent(activity.getBaseContext(), QRCodeActivity.class);
+                    myIntent.putExtra("content", String.valueOf(qrCode));
+                    activity.startActivity(myIntent);
+                } else if (i.equals("false")) {
+
+                    gerarQRCode(activity, content);
+                }
+            });
+        } else {
+
+            gerarQRCode(activity, content);
+        }
+
+    }
+
     public void gerarQRCode(Activity activity, String content) {
 
         new Thread(() -> {
@@ -117,7 +144,7 @@ public class Pastebin {
                     arguments.put("api_user_key", userKey);
                     arguments.put("api_option", "paste");
                     arguments.put("api_paste_code", content);
-                    arguments.put("api_paste_expire_date", "10M");
+                    arguments.put("api_paste_expire_date", "1D");
 
                     StringJoiner sj = new StringJoiner("&");
 

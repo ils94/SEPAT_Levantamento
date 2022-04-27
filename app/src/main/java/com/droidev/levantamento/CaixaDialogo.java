@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import java.util.ArrayList;
 
 public class CaixaDialogo {
@@ -170,10 +172,18 @@ public class CaixaDialogo {
                 .show();
 
         Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
+        Button negativeButton = dialog.getButton((androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE));
 
         positiveButton.setOnClickListener(v -> {
 
             onButtonPressed.buttonPressed("true");
+
+            dialog.dismiss();
+        });
+
+        negativeButton.setOnClickListener(v -> {
+
+            onButtonPressed.buttonPressed("false");
 
             dialog.dismiss();
         });
