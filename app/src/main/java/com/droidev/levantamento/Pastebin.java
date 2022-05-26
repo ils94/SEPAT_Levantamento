@@ -320,7 +320,6 @@ public class Pastebin {
                 });
 
             } catch (Exception e) {
-                e.printStackTrace();
 
                 Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
             }
