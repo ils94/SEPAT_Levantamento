@@ -267,8 +267,7 @@ public class Pastebin {
     @SuppressLint("SetTextI18n")
     public void pastebin(Activity activity, String url, EditText editText, TextView textView1, TextView textView2, TextView textView3) {
 
-        editText.setText("Buscando do pastebin...");
-        textView1.setText("Buscando do pastebin...");
+        Toast.makeText(activity, "Buscando no pastebin...", Toast.LENGTH_LONG).show();
 
         new Thread(() -> {
 
