@@ -322,9 +322,7 @@ public class Pastebin {
             } catch (Exception e) {
                 e.printStackTrace();
 
-                editText.post(() -> editText.setText(e.toString()));
-
-                textView1.post(() -> textView1.setText(e.toString()));
+                Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
             }
         }).start();
     }
