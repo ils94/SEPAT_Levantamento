@@ -228,46 +228,40 @@ public class Pastebin {
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
 
-        positiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        positiveButton.setOnClickListener(v -> {
 
-                String loginString = login.getText().toString();
-                String senhaString = senha.getText().toString();
-                String devKeyString = devKey.getText().toString();
-                String elementoString = elemento.getText().toString();
+            String loginString = login.getText().toString();
+            String senhaString = senha.getText().toString();
+            String devKeyString = devKey.getText().toString();
+            String elementoString = elemento.getText().toString();
 
-                if (!loginString.equals("") && !senhaString.equals("") && !devKeyString.equals("") && !elementoString.equals("")) {
+            if (!loginString.equals("") && !senhaString.equals("") && !devKeyString.equals("") && !elementoString.equals("")) {
 
-                    tinyDB.remove("login");
-                    tinyDB.remove("senha");
-                    tinyDB.remove("devKey");
-                    tinyDB.remove("elemento");
+                tinyDB.remove("login");
+                tinyDB.remove("senha");
+                tinyDB.remove("devKey");
+                tinyDB.remove("elemento");
 
-                    tinyDB.putString("login", loginString);
-                    tinyDB.putString("senha", senhaString);
-                    tinyDB.putString("devKey", devKeyString);
-                    tinyDB.putString("elemento", elementoString);
+                tinyDB.putString("login", loginString);
+                tinyDB.putString("senha", senhaString);
+                tinyDB.putString("devKey", devKeyString);
+                tinyDB.putString("elemento", elementoString);
 
-                    Toast.makeText(context, "Conta salva", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Conta salva", Toast.LENGTH_SHORT).show();
 
-                    dialog.dismiss();
+                dialog.dismiss();
 
-                } else {
+            } else {
 
-                    Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(context, "Erro, campo vazio", Toast.LENGTH_SHORT).show();
             }
         });
 
-        neutralButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        neutralButton.setOnClickListener(v -> {
 
-                login.setText("");
-                senha.setText("");
-                devKey.setText("");
-            }
+            login.setText("");
+            senha.setText("");
+            devKey.setText("");
         });
     }
 
