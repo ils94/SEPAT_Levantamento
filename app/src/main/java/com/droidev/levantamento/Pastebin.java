@@ -267,7 +267,7 @@ public class Pastebin {
     @SuppressLint("SetTextI18n")
     public void pastebin(Activity activity, String url, EditText editText, TextView textView1, TextView textView2, TextView textView3) {
 
-        Toast.makeText(activity, "Buscando no pastebin...", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, "Buscando no pastebin...", Toast.LENGTH_SHORT).show();
 
         new Thread(() -> {
 
@@ -315,7 +315,7 @@ public class Pastebin {
                         }
                     } else {
 
-                        Toast.makeText(activity, "O arquivo não é compatível.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "O arquivo não é compatível.", Toast.LENGTH_SHORT).show();
                     }
                 });
 
