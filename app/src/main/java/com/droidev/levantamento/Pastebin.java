@@ -299,9 +299,9 @@ public class Pastebin {
 
                             JSONObject jsonObject = new JSONObject(String.valueOf(sb));
 
-                            mainActivity.nomeArquivo = jsonObject.getString("nomeArquivo");
+                            nomeArquivo = jsonObject.getString("nomeArquivo");
 
-                            nomeArquivo = mainActivity.nomeArquivo;
+                            mainActivity.nomeArquivo = nomeArquivo;
 
                             editText.setText(jsonObject.getString("foraRelacao"));
 
@@ -323,33 +323,7 @@ public class Pastebin {
                         }
                     } else {
 
-                        caixaDialogo.simplesComView(activity,
-                                "Nome da relação",
-                                "Insira o nome da relação abaixo:",
-                                "Exemplo: SEPAT",
-                                "Ok",
-                                "Cancelar",
-                                false,
-                                i -> {
-
-                                    mainActivity.nomeArquivo = i;
-
-                                    nomeArquivo = mainActivity.nomeArquivo;
-
-                                    editText.setText("");
-                                    textView1.setText("");
-                                    textView1.setText(sb.toString().replace(",", ": ") + "\n");
-
-                                    activity.setTitle(nomeArquivo.toUpperCase());
-
-                                    utils.contadorLinhas(editText, textView1, textView2, textView3);
-
-                                    utils.manterNaMemoria(activity.getBaseContext(), nomeArquivo, "nome_arquivo.txt");
-
-                                    utils.manterNaMemoria(activity.getBaseContext(), editText.getText().toString(), "fora_da_relacao.txt");
-
-                                    utils.manterNaMemoria(activity.getBaseContext(), textView1.getText().toString(), "relacao.txt");
-                                });
+                        Toast.makeText(activity, "O arquivo não é compatível.", Toast.LENGTH_LONG).show();
                     }
                 });
 
