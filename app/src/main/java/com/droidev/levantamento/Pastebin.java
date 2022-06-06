@@ -321,7 +321,7 @@ public class Pastebin {
 
             } catch (Exception e) {
 
-                Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
+                activity.runOnUiThread(() -> Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show());
             }
         }).start();
     }
