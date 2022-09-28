@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/manual"
+        android:icon="@drawable/insert"
+        android:title="Inserir Manualmente"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/escanear"
+        android:icon="@drawable/scanner"
+        android:title="Escanear"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/desfazer"
+        android:title="Desfazer" />
+
+    <item
+        android:id="@+id/refazer"
+        android:title="Refazer" />
+
+    <item android:title="Arquivo...">
+
+        <menu>
+
+            <item
+                android:id="@+id/gerarRelatorioCompleto"
+                android:title="Enviar Relatório Completo" />
+
+            <item
+                android:id="@+id/gerarForaRelacaoCSV"
+                android:title="Enviar Fora da Relação" />
+
+            <item
+                android:id="@+id/enviarJson"
+                android:title="Enviar JSON" />
+
+            <item
+                android:id="@+id/criarJson"
+                android:title="Criar JSON" />
+
+            <item
+                android:id="@+id/abrirArquivo"
+                android:title="Abrir Arquivo" />
+
+        </menu>
+
+    </item>
+
+    <item android:title="Copiar...">
+
+        <menu>
+
+            <item
+                android:id="@+id/copiarForaRelacao"
+                android:title="Fora da Relação" />
+
+            <item
+                android:id="@+id/copiarRelacao"
+                android:title="Relação" />
+
+            <item
+                android:id="@+id/copiarAmbos"
+                android:title="Ambos" />
+
+        </menu>
+
+    </item>
+
+    <item android:title="Mais...">
+
+        <menu>
+
+            <item
+                android:id="@+id/naoLocalizados"
+                android:title="Não Localizados" />
+
+            <item
+                android:id="@+id/procurar"
+                android:title="Procurar" />
+
+            <item
+                android:id="@+id/editavel"
+                android:title="Ativar/Desativar Edição" />
+
+            <item
+                android:id="@+id/contarLinhas"
+                android:title="Contar Linhas" />
+
+            <item
+                android:id="@+id/fonte"
+                android:title="Alterar Tamanho da Fonte" />
+
+            <item
+                android:id="@+id/forcarSalvar"
+                android:title="Forçar Salvar" />
+
+        </menu>
+
+    </item>
+
+    <item android:title="Pastebin">
+
+        <menu>
+
+            <item
+                android:id="@+id/gerarQrCode"
+                android:title="Gerar QR Code" />
+
+            <item
+                android:id="@+id/salvarConta"
+                android:title="Salvar Conta pastebin.com" />
+
+            <item
+                android:id="@+id/criarConta"
+                android:title="Criar Conta no pastebin.com" />
+
+        </menu>
+
+    </item>
+
+</menu>
