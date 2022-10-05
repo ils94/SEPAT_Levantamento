@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
@@ -118,21 +117,18 @@ public class Utils {
 
     public void autoScroll(ScrollView scrollView, TextView textView, String s) {
 
-        textView.post(new Runnable() {
-            @Override
-            public void run() {
+        textView.post(() -> {
 
-                realcarTexto(textView, s);
+            realcarTexto(textView, s);
 
-                int index = textView.getText().toString().indexOf(s);
+            int index = textView.getText().toString().indexOf(s);
 
-                int line = textView.getLayout().getLineForOffset(index);
+            int line = textView.getLayout().getLineForOffset(index);
 
-                int y = textView.getLayout().getLineTop(line);
+            int y = textView.getLayout().getLineTop(line);
 
-                scrollView.smoothScrollTo(0, y);
+            scrollView.smoothScrollTo(0, y);
 
-            }
         });
     }
 
