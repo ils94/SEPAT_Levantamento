@@ -8,33 +8,33 @@
     android:padding="5dp"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/foraDaRelacaoTV"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="FORA DA RELAÇÃO"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:id="@+id/foraDaRelacaoScrollView"
         android:layout_height="match_parent"
-        android:layout_weight="100"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/foraDaRelacaoTV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="FORA DA RELAÇÃO"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#c0c0c0" />
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <EditText
             android:id="@+id/foraDaRelacao"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@color/white"
             android:fontFamily="sans-serif-black"
             android:gravity="top|start"
@@ -43,32 +43,40 @@
             android:textColor="@color/black"
             android:textSize="12sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#c0c0c0" />
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/relacaoTV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="RELAÇÃO"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#c0c0c0" />
+    <TextView
+        android:id="@+id/relacaoTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="RELAÇÃO"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0" />
+
+    <ScrollView
+        android:id="@+id/relacaoScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <TextView
             android:id="@+id/relacao"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@color/white"
             android:fontFamily="sans-serif-black"
             android:gravity="top|start"
@@ -76,6 +84,6 @@
             android:textColor="@color/black"
             android:textSize="12sp" />
 
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

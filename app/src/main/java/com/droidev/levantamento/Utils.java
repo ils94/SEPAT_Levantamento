@@ -14,6 +14,7 @@ import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,13 +116,24 @@ public class Utils {
         }
     }
 
-    public void autoScroll(TextView tv, String s) {
+    public void autoScroll(ScrollView scrollView, TextView textView, String s) {
 
-        Layout layout = tv.getLayout();
+        textView.post(new Runnable() {
+            @Override
+            public void run() {
 
-        tv.scrollTo(0, layout.getLineTop(layout.getLineForOffset(tv.getText().toString().indexOf(s))) - (tv.getHeight() / 2));
+                realcarTexto(textView, s);
 
-        realcarTexto(tv, s);
+                int index = textView.getText().toString().indexOf(s);
+
+                int line = textView.getLayout().getLineForOffset(index);
+
+                int y = textView.getLayout().getLineTop(line);
+
+                scrollView.smoothScrollTo(0, y);
+
+            }
+        });
     }
 
     public void copiarTexto(Context context, String string) {

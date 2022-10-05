@@ -17,6 +17,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView relacao, foraDaRelacaoTV, relacaoTV;
     private EditText foraDaRelacao;
+    private ScrollView relacaoScrollview, foraDaRelacaoScrollView;
 
     private Utils utils;
     private Pastebin pastebin;
@@ -73,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
         relacaoTV = findViewById(R.id.relacaoTV);
         relacao = findViewById(R.id.relacao);
 
-        relacao.setMovementMethod(new ScrollingMovementMethod());
+        relacaoScrollview = findViewById(R.id.relacaoScrollView);
+
+        foraDaRelacaoScrollView = findViewById(R.id.foraDaRelacaoScrollView);
 
         nomeArquivo = utils.recuperarDaMemoria(MainActivity.this, "nome_arquivo.txt");
 
@@ -112,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     i -> {
                         if (i.equals("true")) {
 
-                            if (intent.getType().equals("text/csv")){
+                            if (intent.getType().equals("text/csv")) {
 
                                 utils.csvDataStream(MainActivity.this, relacao, foraDaRelacao, data);
 
@@ -204,12 +208,10 @@ public class MainActivity extends AppCompatActivity {
                         naoEncontrado(i);
                     }
 
-                    if (relacao.getText().toString().contains(i)) {
+                    utils.autoScroll(relacaoScrollview, relacao, i);
 
-                        utils.autoScroll(relacao, i);
-                    }
+                    utils.autoScroll(foraDaRelacaoScrollView, foraDaRelacao, i);
 
-                    utils.realcarTexto(foraDaRelacao, i);
                 });
 
                 return true;
@@ -416,12 +418,9 @@ public class MainActivity extends AppCompatActivity {
                     naoEncontrado(resultado);
                 }
 
-                if (relacao.getText().toString().contains(resultado)) {
+                utils.autoScroll(relacaoScrollview, relacao, resultado);
 
-                    utils.autoScroll(relacao, resultado);
-                }
-
-                utils.realcarTexto(foraDaRelacao, resultado);
+                utils.autoScroll(foraDaRelacaoScrollView, foraDaRelacao, resultado);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -440,22 +439,7 @@ public class MainActivity extends AppCompatActivity {
                 assert nomeArquivo != null;
                 if (nomeArquivo.contains(".csv")) {
 
-                    try {
-                        InputStream inputStream = getContentResolver().openInputStream(uri);
-                        BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
-
-                        relacao.setText("");
-                        foraDaRelacao.setText("");
-
-                        String mLine;
-                        while ((mLine = r.readLine()) != null) {
-                            relacao.append(mLine.toUpperCase().replace(",", ": ").replace("  ", " ") + "\n");
-                        }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    utils.csvDataStream(MainActivity.this, relacao, foraDaRelacao, uri);
 
                 } else if (nomeArquivo.contains(".json")) {
 
