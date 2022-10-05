@@ -24,7 +24,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -113,7 +112,16 @@ public class MainActivity extends AppCompatActivity {
                     i -> {
                         if (i.equals("true")) {
 
-                            utils.jsonDataStream(MainActivity.this, relacao, foraDaRelacao, data);
+                            if (intent.getType().equals("text/csv")){
+
+                                utils.csvDataStream(MainActivity.this, relacao, foraDaRelacao, data);
+
+                            } else {
+
+                                utils.jsonDataStream(MainActivity.this, relacao, foraDaRelacao, data);
+                            }
+
+                            contadorLinhas();
                         }
                     });
         }

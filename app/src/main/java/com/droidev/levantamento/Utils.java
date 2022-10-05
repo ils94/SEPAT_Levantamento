@@ -306,4 +306,24 @@ public class Utils {
         }
 
     }
+
+    public void csvDataStream(Activity activity, TextView textView, EditText editText, Uri data) {
+
+        try {
+            InputStream inputStream = activity.getContentResolver().openInputStream(data);
+            BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+
+            textView.setText("");
+            editText.setText("");
+
+            String mLine;
+            while ((mLine = r.readLine()) != null) {
+                textView.append(mLine.toUpperCase().replace(",", ": ").replace("  ", " ") + "\n");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
 }
