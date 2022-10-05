@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -18,9 +19,16 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -265,5 +273,37 @@ public class Utils {
                 Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
             }
         }).start();
+    }
+
+    public void jsonDataStream(Activity activity, TextView textView, EditText editText, Uri data) {
+
+        try {
+
+            InputStream inputStream = activity.getContentResolver().openInputStream(data);
+            BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder stringBuilder = new StringBuilder();
+
+            String mLine;
+            while ((mLine = r.readLine()) != null) {
+                stringBuilder.append(mLine);
+            }
+
+            JSONObject jsonObject = new JSONObject(String.valueOf(stringBuilder));
+
+            String nomeArquivo = jsonObject.getString("nomeArquivo");
+
+            editText.setText(jsonObject.getString("foraRelacao"));
+
+            textView.setText(jsonObject.getString("relacao"));
+
+            nomeArquivo = nomeArquivo.replace(".json", "");
+
+            activity.setTitle(nomeArquivo);
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

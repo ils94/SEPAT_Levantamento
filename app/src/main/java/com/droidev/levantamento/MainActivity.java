@@ -105,29 +105,17 @@ public class MainActivity extends AppCompatActivity {
 
         if (data != null) {
 
-            try {
+            caixaDialogo.simples(MainActivity.this, "Abrir novo arquivo",
+                    "Abrir um novo arquivo irá apagar tudo da relação atual no App. " +
+                            "Deseja continuar?",
+                    "Sim",
+                    "Não",
+                    i -> {
+                        if (i.equals("true")) {
 
-                InputStream inputStream = getContentResolver().openInputStream(data);
-                BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder = new StringBuilder();
-
-                String mLine;
-                while ((mLine = r.readLine()) != null) {
-                    stringBuilder.append(mLine);
-                }
-
-                JSONObject jsonObject = new JSONObject(String.valueOf(stringBuilder));
-
-                nomeArquivo = jsonObject.getString("nomeArquivo");
-
-                foraDaRelacao.setText(jsonObject.getString("foraRelacao"));
-
-                relacao.setText(jsonObject.getString("relacao"));
-
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-                Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-            }
+                            utils.jsonDataStream(MainActivity.this, relacao, foraDaRelacao, data);
+                        }
+                    });
         }
     }
 
@@ -463,28 +451,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (nomeArquivo.contains(".json")) {
 
-                    try {
-                        InputStream inputStream = getContentResolver().openInputStream(uri);
-                        BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
-                        StringBuilder stringBuilder = new StringBuilder();
-
-                        String mLine;
-                        while ((mLine = r.readLine()) != null) {
-                            stringBuilder.append(mLine);
-                        }
-
-                        JSONObject jsonObject = new JSONObject(String.valueOf(stringBuilder));
-
-                        nomeArquivo = jsonObject.getString("nomeArquivo");
-
-                        foraDaRelacao.setText(jsonObject.getString("foraRelacao"));
-
-                        relacao.setText(jsonObject.getString("relacao"));
-
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    utils.jsonDataStream(MainActivity.this, relacao, foraDaRelacao, uri);
                 } else {
 
                     Toast.makeText(getBaseContext(), "Arquivo inválido", Toast.LENGTH_SHORT).show();
