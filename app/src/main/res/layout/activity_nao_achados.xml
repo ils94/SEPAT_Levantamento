@@ -5,33 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".NaoLocalizadosActivity"
-    android:padding="5dp">
+    android:padding="5dp"
+    tools:context=".NaoLocalizadosActivity">
 
     <TextView
         android:id="@+id/naoAchadosTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@color/white"
+        android:gravity="center"
+        android:padding="5dp"
         android:textColor="@color/black"
-        android:textSize="12sp"
-        android:padding="5dp"/>
+        android:textSize="12sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#c0c0c0" />
 
-    <TextView
-        android:id="@+id/naoAchados"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:fontFamily="sans-serif-black"
-        android:gravity="top|start"
-        android:padding="5dp"
-        android:textColor="@color/black"
-        android:textSize="12sp" />
+        android:id="@+id/naoAchadosScrollView"
+        android:fillViewport="true">
+
+        <TextView
+            android:id="@+id/naoAchados"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:fontFamily="sans-serif-black"
+            android:gravity="top|start"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+    </ScrollView>
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class NaoLocalizadosActivity extends AppCompatActivity {
 
     TextView naoAchados, naoAchadosTV;
+    ScrollView naoAchadosScrollView;
     ArrayList arrayList;
     String s = "";
     int j = 0;
@@ -42,7 +44,7 @@ public class NaoLocalizadosActivity extends AppCompatActivity {
         naoAchados = findViewById(R.id.naoAchados);
         naoAchadosTV = findViewById(R.id.naoAchadosTV);
 
-        naoAchados.setMovementMethod(new ScrollingMovementMethod());
+        naoAchadosScrollView = findViewById(R.id.naoAchadosScrollView);
 
         Intent intent = getIntent();
         arrayList = intent.getStringArrayListExtra("arraylist");
