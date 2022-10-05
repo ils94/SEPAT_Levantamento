@@ -98,6 +98,37 @@ public class MainActivity extends AppCompatActivity {
             relacao.setTextSize(TypedValue.COMPLEX_UNIT_SP, Integer.parseInt(tinyDB.getString("Fonte")));
             foraDaRelacao.setTextSize(TypedValue.COMPLEX_UNIT_SP, Integer.parseInt(tinyDB.getString("Fonte")));
         }
+
+        Intent intent = getIntent();
+
+        Uri data = intent.getData();
+
+        if (data != null) {
+
+            try {
+
+                InputStream inputStream = getContentResolver().openInputStream(data);
+                BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+
+                String mLine;
+                while ((mLine = r.readLine()) != null) {
+                    stringBuilder.append(mLine);
+                }
+
+                JSONObject jsonObject = new JSONObject(String.valueOf(stringBuilder));
+
+                nomeArquivo = jsonObject.getString("nomeArquivo");
+
+                foraDaRelacao.setText(jsonObject.getString("foraRelacao"));
+
+                relacao.setText(jsonObject.getString("relacao"));
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
