@@ -15,8 +15,7 @@
         android:background="@color/white"
         android:gravity="center"
         android:padding="5dp"
-        android:textColor="@color/black"
-        android:textSize="12sp" />
+        android:textColor="@color/black" />
 
     <View
         android:layout_width="match_parent"
@@ -24,9 +23,9 @@
         android:background="#c0c0c0" />
 
     <ScrollView
+        android:id="@+id/naoAchadosScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/naoAchadosScrollView"
         android:fillViewport="true">
 
         <TextView
@@ -37,8 +36,7 @@
             android:fontFamily="sans-serif-black"
             android:gravity="top|start"
             android:padding="5dp"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:textColor="@color/black" />
 
     </ScrollView>
 

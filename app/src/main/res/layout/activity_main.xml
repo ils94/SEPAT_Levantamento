@@ -16,8 +16,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="FORA DA RELAÇÃO"
-        android:textColor="@color/black"
-        android:textSize="12sp" />
+        android:textColor="@color/black" />
 
     <View
         android:layout_width="match_parent"
@@ -25,8 +24,8 @@
         android:background="#c0c0c0" />
 
     <ScrollView
-        android:layout_width="match_parent"
         android:id="@+id/foraDaRelacaoScrollView"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:fillViewport="true">
@@ -40,8 +39,7 @@
             android:gravity="top|start"
             android:inputType="textMultiLine"
             android:padding="5dp"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:textColor="@color/black" />
 
     </ScrollView>
 
@@ -58,8 +56,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="RELAÇÃO"
-        android:textColor="@color/black"
-        android:textSize="12sp" />
+        android:textColor="@color/black" />
 
     <View
         android:layout_width="match_parent"
@@ -81,8 +78,7 @@
             android:fontFamily="sans-serif-black"
             android:gravity="top|start"
             android:padding="5dp"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:textColor="@color/black" />
 
     </ScrollView>
 
