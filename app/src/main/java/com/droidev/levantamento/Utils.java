@@ -285,18 +285,11 @@ public class Utils {
 
     public void jsonDataStream(Activity activity, TextView textView, EditText editText, Uri data) {
 
+        JSON json = new JSON();
+
         try {
 
-            InputStream inputStream = activity.getContentResolver().openInputStream(data);
-            BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder stringBuilder = new StringBuilder();
-
-            String mLine;
-            while ((mLine = r.readLine()) != null) {
-                stringBuilder.append(mLine);
-            }
-
-            JSONObject jsonObject = new JSONObject(String.valueOf(stringBuilder));
+            JSONObject jsonObject = new JSONObject(String.valueOf(json.lerJSON(activity, data)));
 
             String nomeArquivo = jsonObject.getString("nomeArquivo");
 
@@ -308,7 +301,7 @@ public class Utils {
 
             activity.setTitle(nomeArquivo);
 
-        } catch (IOException | JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
         }
@@ -333,5 +326,64 @@ public class Utils {
             e.printStackTrace();
             Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void juntarRelacoes(Activity activity, TextView textView, EditText editText, Uri data) {
+
+        JSON json = new JSON();
+
+        StringBuilder novoForaDaRelacao = new StringBuilder();
+
+        String[] novaRelacao = textView.getText().toString().split("\n");
+
+        String[] foraDaRelacaoRecebida = new String[]{};
+
+        String[] relacaoRecebida = new String[]{};
+
+        try {
+
+            JSONObject jsonObject = new JSONObject(String.valueOf(json.lerJSON(activity, data)));
+
+            foraDaRelacaoRecebida = jsonObject.getString("foraRelacao").split("\n");
+
+            relacaoRecebida = jsonObject.getString("relacao").split("\n");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+        if (!foraDaRelacaoRecebida[0].equals("")) {
+
+            for (int i = 0; i < foraDaRelacaoRecebida.length; i++) {
+
+                String[] patrimonio = foraDaRelacaoRecebida[i].split(": ");
+
+                if (!editText.getText().toString().contains(patrimonio[1])) {
+
+                    novoForaDaRelacao.append(foraDaRelacaoRecebida[i]).append("\n");
+                }
+            }
+        }
+
+        novoForaDaRelacao.append(editText.getText().toString());
+
+        for (int i = 0; i < relacaoRecebida.length; i++) {
+
+            if (!novaRelacao[i].contains(relacaoRecebida[i])) {
+
+                novaRelacao[i] = novaRelacao[i].replace(novaRelacao[i], relacaoRecebida[i]);
+            }
+        }
+
+        StringBuilder novaRelacaoSB = new StringBuilder();
+
+        for (int i = 0; i < novaRelacao.length; i++) {
+
+            novaRelacaoSB.append(novaRelacao[i]).append("\n");
+        }
+
+        editText.setText(novoForaDaRelacao);
+        textView.setText(novaRelacaoSB);
     }
 }

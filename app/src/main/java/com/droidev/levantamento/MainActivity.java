@@ -104,11 +104,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (data != null) {
 
-            caixaDialogo.simples(MainActivity.this, "Abrir novo arquivo",
+            caixaDialogo.simplesTresBotoes(MainActivity.this, "Abrir novo arquivo",
                     "Abrir um novo arquivo irá apagar tudo da relação atual no App. " +
                             "Deseja continuar?",
                     "Sim",
                     "Não",
+                    "Juntar",
                     i -> {
                         if (i.equals("true")) {
 
@@ -122,6 +123,11 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             contadorLinhas();
+                        }
+
+                        if (i.equals("neutral")) {
+
+                            utils.juntarRelacoes(MainActivity.this, relacao, foraDaRelacao, data);
                         }
                     });
         }
