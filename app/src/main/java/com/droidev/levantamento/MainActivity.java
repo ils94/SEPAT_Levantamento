@@ -104,11 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (data != null) {
 
-            caixaDialogo.simplesTresBotoes(MainActivity.this, "Abrir novo arquivo",
-                    "Abrir um novo arquivo irá apagar tudo da relação atual no App. " +
-                            "Deseja continuar?",
-                    "Sim",
-                    "Não",
+            caixaDialogo.simplesTresBotoes(MainActivity.this, "Escolha uma das opções abaixo",
+                    "Abrir a relação no app.\n\nJuntar com a relação atual do app.\n\nCancelar essa ação.",
+                    "Abrir",
+                    "Cancelar",
                     "Juntar",
                     i -> {
                         if (i.equals("true")) {
@@ -127,7 +126,20 @@ public class MainActivity extends AppCompatActivity {
 
                         if (i.equals("neutral")) {
 
-                            utils.juntarRelacoes(MainActivity.this, relacao, foraDaRelacao, data);
+                            if (intent.getType().equals("application/json")) {
+
+                                caixaDialogo.simples(MainActivity.this, "Juntar relações",
+                                        "Essa ação irá juntar as duas relações, e não poderá ser desfeita. Deseja continuar?",
+                                        "Sim",
+                                        "Não", i1 -> {
+
+                                            if (i1.equals("true")) {
+
+                                                utils.juntarRelacoes(MainActivity.this, relacao, foraDaRelacao, data);
+                                            }
+
+                                        });
+                            }
                         }
                     });
         }
