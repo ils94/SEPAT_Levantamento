@@ -330,17 +330,17 @@ public class Utils {
 
     public void juntarRelacoes(Activity activity, TextView textView, EditText editText, Uri data) {
 
-        JSON json = new JSON();
-
-        StringBuilder novoForaDaRelacao = new StringBuilder();
-
-        String[] novaRelacao = textView.getText().toString().split("\n");
-
-        String[] foraDaRelacaoRecebida = new String[]{};
-
-        String[] relacaoRecebida = new String[]{};
-
         try {
+
+            JSON json = new JSON();
+
+            StringBuilder novoForaDaRelacao = new StringBuilder();
+
+            String[] novaRelacao = textView.getText().toString().split("\n");
+
+            String[] foraDaRelacaoRecebida;
+
+            String[] relacaoRecebida;
 
             JSONObject jsonObject = new JSONObject(String.valueOf(json.lerJSON(activity, data)));
 
@@ -348,42 +348,42 @@ public class Utils {
 
             relacaoRecebida = jsonObject.getString("relacao").split("\n");
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-        }
+            if (!foraDaRelacaoRecebida[0].equals("")) {
 
-        if (!foraDaRelacaoRecebida[0].equals("")) {
+                for (String s : foraDaRelacaoRecebida) {
 
-            for (int i = 0; i < foraDaRelacaoRecebida.length; i++) {
+                    String[] patrimonio = s.split(": ");
 
-                String[] patrimonio = foraDaRelacaoRecebida[i].split(": ");
+                    if (!editText.getText().toString().contains(patrimonio[1])) {
 
-                if (!editText.getText().toString().contains(patrimonio[1])) {
-
-                    novoForaDaRelacao.append(foraDaRelacaoRecebida[i]).append("\n");
+                        novoForaDaRelacao.append(s).append("\n");
+                    }
                 }
             }
-        }
 
-        novoForaDaRelacao.append(editText.getText().toString());
+            novoForaDaRelacao.append(editText.getText().toString());
 
-        for (int i = 0; i < relacaoRecebida.length; i++) {
+            for (int i = 0; i < relacaoRecebida.length; i++) {
 
-            if (!novaRelacao[i].contains(relacaoRecebida[i])) {
+                if (!novaRelacao[i].contains(relacaoRecebida[i])) {
 
-                novaRelacao[i] = novaRelacao[i].replace(novaRelacao[i], relacaoRecebida[i]);
+                    novaRelacao[i] = novaRelacao[i].replace(novaRelacao[i], relacaoRecebida[i]);
+                }
             }
+
+            StringBuilder novaRelacaoSB = new StringBuilder();
+
+            for (String s : novaRelacao) {
+
+                novaRelacaoSB.append(s).append("\n");
+            }
+
+            editText.setText(novoForaDaRelacao);
+            textView.setText(novaRelacaoSB);
+
+        } catch (Exception e) {
+
+            Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
         }
-
-        StringBuilder novaRelacaoSB = new StringBuilder();
-
-        for (int i = 0; i < novaRelacao.length; i++) {
-
-            novaRelacaoSB.append(novaRelacao[i]).append("\n");
-        }
-
-        editText.setText(novoForaDaRelacao);
-        textView.setText(novaRelacaoSB);
     }
 }
