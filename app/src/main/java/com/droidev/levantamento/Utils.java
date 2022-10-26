@@ -321,7 +321,7 @@ public class Utils {
 
             String mLine;
 
-            while ((mLine = r.readLine()) != null) {
+            while (!(mLine = r.readLine()).equals("")) {
                 relacao.append(mLine.toUpperCase().replace(",", ": ").replace("  ", " ")).append("\n");
             }
 
