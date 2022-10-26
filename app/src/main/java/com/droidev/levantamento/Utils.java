@@ -314,13 +314,18 @@ public class Utils {
             InputStream inputStream = activity.getContentResolver().openInputStream(data);
             BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
 
+            StringBuilder relacao = new StringBuilder();
+
             textView.setText("");
             editText.setText("");
 
             String mLine;
+
             while ((mLine = r.readLine()) != null) {
-                textView.append(mLine.toUpperCase().replace(",", ": ").replace("  ", " ") + "\n");
+                relacao.append(mLine.toUpperCase().replace(",", ": ").replace("  ", " ")).append("\n");
             }
+
+            textView.setText(relacao);
 
         } catch (IOException e) {
             e.printStackTrace();
