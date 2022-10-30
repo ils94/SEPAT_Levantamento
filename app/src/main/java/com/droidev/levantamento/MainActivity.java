@@ -116,6 +116,16 @@ public class MainActivity extends AppCompatActivity {
 
                                 utils.csvDataStream(MainActivity.this, relacao, foraDaRelacao, data);
 
+                                DocumentFile file = DocumentFile.fromSingleUri(this, data);
+                                assert file != null;
+                                nomeArquivo = file.getName();
+
+                                assert nomeArquivo != null;
+
+                                nomeArquivo = nomeArquivo.replace(".json", "").replace(".csv", "").toUpperCase();
+
+                                setTitle(nomeArquivo);
+
                             } else {
 
                                 utils.jsonDataStream(MainActivity.this, relacao, foraDaRelacao, data);
