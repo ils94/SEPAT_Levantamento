@@ -187,6 +187,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
+            case R.id.abrir_anotacoes:
+
+                Intent myIntent = new Intent(MainActivity.this, AnotacoesActivity.class);
+                startActivity(myIntent);
+
+                return true;
+
             case R.id.desfazer:
 
                 if (ultimoItem) {

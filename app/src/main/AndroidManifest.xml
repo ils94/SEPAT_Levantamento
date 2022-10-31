@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Levantamento">
         <activity
+            android:name=".AnotacoesActivity"
+            android:exported="true" />
+        <activity
             android:name=".QRCodeActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -32,16 +35,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter tools:ignore="AppLinkUrlError">
-
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/json" />
                 <data android:mimeType="text/comma-separated-values" />
-
             </intent-filter>
-
         </activity>
 
         <provider

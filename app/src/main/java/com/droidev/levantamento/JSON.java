@@ -22,11 +22,14 @@ public class JSON {
 
         JSONObject jsonObject = new JSONObject();
 
+        Utils utils = new Utils();
+
         try {
 
             jsonObject.put("nomeArquivo", nomeArquivo);
             jsonObject.put("foraRelacao", foraRelacao);
             jsonObject.put("relacao", relacao);
+            jsonObject.put("anotacoes", utils.recuperarDaMemoria(context, "anotacoes.txt"));
 
         } catch (Exception e) {
             e.printStackTrace();

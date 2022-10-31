@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/apagar_anotacao"
+        android:title="Apagar tudo" />
+
+    <item
+        android:id="@+id/copiar_anotacao"
+        android:icon="@drawable/copy"
+        android:title="Copiar"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/salvar_anotacao"
+        android:icon="@drawable/save"
+        android:title="Salvar"
+        app:showAsAction="always" />
+
+</menu>

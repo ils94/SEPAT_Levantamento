@@ -301,6 +301,8 @@ public class Utils {
 
             activity.setTitle(nomeArquivo);
 
+            manterNaMemoria(activity, jsonObject.getString("anotacoes"), "anotacoes.txt");
+
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
@@ -341,6 +343,8 @@ public class Utils {
 
             JSON json = new JSON();
 
+            String anotacoes = recuperarDaMemoria(activity, "anotacoes.txt");
+
             StringBuilder novoForaDaRelacao = new StringBuilder();
 
             String[] novaRelacao = textView.getText().toString().split("\n");
@@ -354,6 +358,8 @@ public class Utils {
             foraDaRelacaoRecebida = jsonObject.getString("foraRelacao").split("\n");
 
             relacaoRecebida = jsonObject.getString("relacao").split("\n");
+
+            anotacoes = anotacoes + "\n\n" + jsonObject.getString("anotacoes");
 
             if (!foraDaRelacaoRecebida[0].equals("")) {
 
@@ -387,6 +393,8 @@ public class Utils {
 
             editText.setText(novoForaDaRelacao);
             textView.setText(novaRelacaoSB);
+
+            manterNaMemoria(activity, anotacoes, "anotacoes.txt");
 
         } catch (Exception e) {
 

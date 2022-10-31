@@ -15,12 +15,16 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/desfazer"
-        android:title="Desfazer" />
+        android:id="@+id/abrir_anotacoes"
+        android:title="Anotações" />
 
     <item
         android:id="@+id/refazer"
         android:title="Refazer" />
+
+    <item
+        android:id="@+id/desfazer"
+        android:title="Desfazer" />
 
     <item android:title="Arquivo...">
 
