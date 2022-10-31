@@ -41,9 +41,21 @@ public class AnotacoesActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        utils.manterNaMemoria(AnotacoesActivity.this, anotacao.getText().toString(), "anotacoes.txt");
+        caixaDialogo.simples(AnotacoesActivity.this,
+                "Salvar anotações",
+                "Salvar todas as anotações antes de sair?",
+                "Sim",
+                "Não",
+                i -> {
 
-        AnotacoesActivity.this.finish();
+                    if (i.equals("true")) {
+
+                        utils.manterNaMemoria(AnotacoesActivity.this, anotacao.getText().toString(), "anotacoes.txt");
+
+                    }
+
+                    AnotacoesActivity.this.finish();
+                });
     }
 
     @Override
