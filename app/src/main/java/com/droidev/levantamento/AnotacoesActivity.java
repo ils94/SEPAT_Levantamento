@@ -15,6 +15,7 @@ public class AnotacoesActivity extends AppCompatActivity {
     EditText anotacao;
     Utils utils;
     TinyDB tinyDB;
+    CaixaDialogo caixaDialogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class AnotacoesActivity extends AppCompatActivity {
 
         utils = new Utils();
         tinyDB = new TinyDB(AnotacoesActivity.this);
+        caixaDialogo = new CaixaDialogo();
 
         anotacao = findViewById(R.id.anotacao_edittext);
 
@@ -57,7 +59,18 @@ public class AnotacoesActivity extends AppCompatActivity {
 
             case R.id.apagar_anotacao:
 
-                anotacao.setText("");
+                caixaDialogo.simples(AnotacoesActivity.this,
+                        "Apagar anotações",
+                        "Apagar todas as anotações?",
+                        "Sim",
+                        "Não",
+                        i -> {
+
+                            if (i.equals("true")) {
+
+                                anotacao.setText("");
+                            }
+                        });
 
                 return true;
 
