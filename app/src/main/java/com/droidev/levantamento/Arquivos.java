@@ -86,6 +86,8 @@ public class Arquivos {
 
     public void relatorioCompleto(Activity activity, TextView textView, EditText editText) {
 
+        String anotacoes = utils.recuperarDaMemoria(activity, "anotacoes.txt");
+
         String[] separado = textView.getText().toString().split("\n");
 
         StringBuilder listaNaoAchados = new StringBuilder();
@@ -126,9 +128,10 @@ public class Arquivos {
                 + editText.getText().toString() + "\n"
                 + "BENS NÃO LOCALIZADOS FISICAMENTE: "
                 + j + " ITENS\n\n" + listaNaoAchados
-                + "\n\n" + "RELAÇÃO: "
+                + "\n" + "RELAÇÃO: "
                 + listaRelacao.length
-                + " ITENS\n\n" + textView.getText().toString();
+                + " ITENS\n\n" + textView.getText().toString()
+                + "\nANOTAÇÕES\n\n" + anotacoes;
 
         exportarDados(activity, documento, ".txt");
 
