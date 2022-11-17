@@ -166,7 +166,9 @@ public class Pastebin {
 
                     String result = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
 
-                    System.out.println(result);
+                    result = result.replace("https://pastebin.com/", "");
+
+                    result = "https://pastebin.com/raw/" + result;
 
                     Intent myIntent = new Intent(activity.getBaseContext(), QRCodeActivity.class);
                     myIntent.putExtra("content", result);
@@ -304,6 +306,12 @@ public class Pastebin {
                             activity.setTitle(nomeArquivo.toUpperCase());
 
                             utils.contadorLinhas(editText, textView1, textView2, textView3);
+
+                            String anotacoes = utils.recuperarDaMemoria(activity, "anotacoes.txt");
+
+                            anotacoes = anotacoes + "\n\n" + jsonObject.getString("anotacoes");
+
+                            utils.manterNaMemoria(activity, anotacoes, "anotacoes.txt");
 
                             utils.manterNaMemoria(activity.getBaseContext(), nomeArquivo, "nome_arquivo.txt");
 
