@@ -256,6 +256,18 @@ public class Utils {
         return "RELATÓRIO GERADO EM " + currentDate + " ÀS " + currentTime;
     }
 
+    public String filtrarDigitos(String string) {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(string);
+
+        sb.deleteCharAt(0);
+        sb.deleteCharAt(0);
+
+        return sb.toString();
+    }
+
     public void separarNaoAchados(Context context, TextView textView) {
 
         new Thread(() -> {

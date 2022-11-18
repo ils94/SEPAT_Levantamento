@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Boolean ultimoItem = false, voltarItem = false;
 
-    private String ultimo, atual;
+    private String ultimo, atual, newIntentResult;
     public String nomeArquivo;
 
     private TinyDB tinyDB;
@@ -420,38 +420,48 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Cancelado", Toast.LENGTH_SHORT).show();
             } else {
 
-                String resultado = StringUtils.leftPad(intentResult.getContents(), 6, '0');
+                newIntentResult = intentResult.getContents();
 
-                if (relacao.getText().toString().contains(resultado + " [OK]") || foraDaRelacao.getText().toString().contains(resultado)) {
+                newIntentResult = StringUtils.leftPad(newIntentResult, 6, '0');
 
-                    Toast.makeText(getBaseContext(), resultado + " já foi escaneado", Toast.LENGTH_SHORT).show();
+                if (newIntentResult.length() == 10 && newIntentResult.startsWith("45")) {
 
-                } else if (resultado.contains("pastebin")) {
+                    newIntentResult = utils.filtrarDigitos(newIntentResult);
+                } else if (newIntentResult.length() == 8 && newIntentResult.startsWith("57")) {
+
+                    newIntentResult = utils.filtrarDigitos(newIntentResult);
+                }
+
+                if (relacao.getText().toString().contains(newIntentResult + " [OK]") || foraDaRelacao.getText().toString().contains(newIntentResult)) {
+
+                    Toast.makeText(getBaseContext(), newIntentResult + " já foi escaneado", Toast.LENGTH_SHORT).show();
+
+                } else if (newIntentResult.contains("pastebin")) {
 
                     caixaDialogo.simples(MainActivity.this, "Carregar nova relação", "Carregar uma nova relação do pastebin?", "Sim", "Cancelar", i -> {
 
                         if (i.equals("true")) {
 
-                            pastebin.pastebin(MainActivity.this, resultado, foraDaRelacao, relacao, foraDaRelacaoTV, relacaoTV);
+                            pastebin.pastebin(MainActivity.this, newIntentResult, foraDaRelacao, relacao, foraDaRelacaoTV, relacaoTV);
                         }
                     });
 
-                } else if (relacao.getText().toString().contains(resultado)) {
+                } else if (relacao.getText().toString().contains(newIntentResult)) {
 
-                    String relacao_check = relacao.getText().toString().replace(resultado, resultado + " [OK]");
+                    String relacao_check = relacao.getText().toString().replace(newIntentResult, newIntentResult + " [OK]");
 
                     relacao.setText(relacao_check);
 
-                    Toast.makeText(getBaseContext(), resultado + " consta na relação", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), newIntentResult + " consta na relação", Toast.LENGTH_SHORT).show();
 
                 } else {
 
-                    naoEncontrado(resultado);
+                    naoEncontrado(newIntentResult);
                 }
 
-                utils.autoScroll(relacaoScrollview, relacao, resultado);
+                utils.autoScroll(relacaoScrollview, relacao, newIntentResult);
 
-                utils.autoScroll(foraDaRelacaoScrollView, foraDaRelacao, resultado);
+                utils.autoScroll(foraDaRelacaoScrollView, foraDaRelacao, newIntentResult);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
