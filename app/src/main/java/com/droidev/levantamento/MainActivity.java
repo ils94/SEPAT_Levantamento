@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
                         String relacao_check = relacao.getText().toString().replace(i, i + " [OK]");
 
-                        relacao.setText(relacao_check);
+                        relacao.setText(relacao_check.toUpperCase());
 
                         manterNaMemoria();
 
