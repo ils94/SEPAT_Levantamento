@@ -148,7 +148,7 @@ public class CaixaDialogo {
 
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-                editText.setHint("N° Patrimonial");
+                editText.setHint("Mínimo 6 dígitos.");
 
                 neutralButton.setText("N° de Série");
 
