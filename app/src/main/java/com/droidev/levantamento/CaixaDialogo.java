@@ -27,9 +27,9 @@ public class CaixaDialogo {
     public void naoEncontrado(Context context, String patrimonio, onButtonPressed onButtonPressed) {
 
         AutoCompleteTextView nome = new AutoCompleteTextView(context);
-        nome.setHint("Nome (exemplo: mesa em L)");
+        nome.setHint("Nome do objeto");
         AutoCompleteTextView local = new AutoCompleteTextView(context);
-        local.setHint("Código da U.L (exemplo: 000123)");
+        local.setHint("Número da sala");
 
         nome.setInputType(InputType.TYPE_CLASS_TEXT);
         local.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -93,7 +93,7 @@ public class CaixaDialogo {
     public void inserirManualmente(Context context, onButtonPressed onButtonPressed) {
 
         EditText editText = new AutoCompleteTextView(context);
-        editText.setHint("Exemplo: 012345");
+        editText.setHint("Mínimo 6 dígitos.");
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         LinearLayout lay = new LinearLayout(context);
@@ -138,7 +138,7 @@ public class CaixaDialogo {
 
                 editText.setInputType(InputType.TYPE_CLASS_TEXT);
 
-                editText.setHint("Exemplo: ABC123");
+                editText.setHint("Número serial");
 
                 neutralButton.setText("N° Patrimonial");
 
@@ -148,7 +148,7 @@ public class CaixaDialogo {
 
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-                editText.setHint("Exemplo: 012345");
+                editText.setHint("N° Patrimonial");
 
                 neutralButton.setText("N° de Série");
 
