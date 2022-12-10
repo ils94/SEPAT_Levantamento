@@ -413,4 +413,56 @@ public class Utils {
             Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    public String organizarDadosRelatorio(Activity activity, TextView textView, EditText editText) {
+
+        String anotacoes = recuperarDaMemoria(activity, "anotacoes.txt");
+
+        String[] separado = textView.getText().toString().split("\n");
+
+        StringBuilder listaNaoAchados = new StringBuilder();
+        int quantidadeForaRelacao;
+
+        String[] listaForaRelacao = editText.getText().toString().split("\n");
+        String[] listaRelacao = textView.getText().toString().split("\n");
+
+        if (!editText.getText().toString().equals("")) {
+
+            quantidadeForaRelacao = listaForaRelacao.length;
+        } else {
+
+            quantidadeForaRelacao = 0;
+        }
+
+        int j = 0;
+
+        for (String s : separado) {
+            if (!s.contains("[OK]")) {
+
+                j = j + 1;
+
+                listaNaoAchados.append(s).append("\n");
+            }
+        }
+
+        String documento = dataHora()
+                + "\n\nTOTAL DE BENS NA RELAÇÃO: "
+                + listaRelacao.length
+                + " ITENS\nTOTAL DE BENS LOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: "
+                + quantidadeForaRelacao
+                + " ITENS\nTOTAL DE BENS NÃO LOCALIZADOS FISICAMENTE: "
+                + j + " ITENS\nSOMA TOTAL (RELAÇÃO + FISICAMENTE LOCALIZADOS QUE NÃO CONSTA NA RELAÇÃO): "
+                + (listaRelacao.length + quantidadeForaRelacao)
+                + " ITENS\n\nLOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: "
+                + quantidadeForaRelacao + " ITENS\n\n"
+                + editText.getText().toString() + "\n"
+                + "BENS NÃO LOCALIZADOS FISICAMENTE: "
+                + j + " ITENS\n\n" + listaNaoAchados
+                + "\n" + "RELAÇÃO: "
+                + listaRelacao.length
+                + " ITENS\n\n" + textView.getText().toString()
+                + "\nANOTAÇÕES\n\n" + anotacoes;
+
+        return documento;
+    }
 }

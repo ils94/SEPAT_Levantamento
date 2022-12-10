@@ -30,21 +30,41 @@
 
         <menu>
 
-            <item
-                android:id="@+id/gerarRelatorioCompleto"
-                android:title="Enviar Relatório Completo" />
+            <item android:title="Relatório Completo">
+
+                <menu>
+
+                    <item
+                        android:id="@+id/enviarRelatorioCompleto"
+                        android:title="Enviar Relatório Completo" />
+
+                    <item
+                        android:id="@+id/criarRelatorioCompleto"
+                        android:title="Criar Relatório Completo" />
+
+                </menu>
+
+            </item>
+
+            <item android:title="JSON">
+
+                <menu>
+
+                    <item
+                        android:id="@+id/enviarJson"
+                        android:title="Enviar JSON" />
+
+                    <item
+                        android:id="@+id/criarJson"
+                        android:title="Criar JSON" />
+
+                </menu>
+
+            </item>
 
             <item
                 android:id="@+id/gerarForaRelacaoCSV"
                 android:title="Enviar Fora da Relação" />
-
-            <item
-                android:id="@+id/enviarJson"
-                android:title="Enviar JSON" />
-
-            <item
-                android:id="@+id/criarJson"
-                android:title="Criar JSON" />
 
             <item
                 android:id="@+id/abrirArquivo"

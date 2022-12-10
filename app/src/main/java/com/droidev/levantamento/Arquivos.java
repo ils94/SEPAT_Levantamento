@@ -20,13 +20,14 @@ public class Arquivos {
     Utils utils = new Utils();
 
     private static final int LER_ARQUIVO = 1;
+    private static final int SALVAR_ARQUIVO = 3;
 
     private void exportarDados(Activity activity, String dados, String extensao) {
 
         caixaDialogo.simplesComView(activity,
                 "Enviar relatório",
                 "Nome do arquivo:",
-                "Exemplo: Deposito 2 / SAMS UL 580",
+                "Exemplo: SEPAT Sala 06",
                 "Enviar",
                 "Cancelar",
                 InputType.TYPE_CLASS_TEXT,
@@ -86,54 +87,7 @@ public class Arquivos {
 
     public void relatorioCompleto(Activity activity, TextView textView, EditText editText) {
 
-        String anotacoes = utils.recuperarDaMemoria(activity, "anotacoes.txt");
-
-        String[] separado = textView.getText().toString().split("\n");
-
-        StringBuilder listaNaoAchados = new StringBuilder();
-        int quantidadeForaRelacao;
-
-        String[] listaForaRelacao = editText.getText().toString().split("\n");
-        String[] listaRelacao = textView.getText().toString().split("\n");
-
-        if (!editText.getText().toString().equals("")) {
-
-            quantidadeForaRelacao = listaForaRelacao.length;
-        } else {
-
-            quantidadeForaRelacao = 0;
-        }
-
-        int j = 0;
-
-        for (String s : separado) {
-            if (!s.contains("[OK]")) {
-
-                j = j + 1;
-
-                listaNaoAchados.append(s).append("\n");
-            }
-        }
-
-        String documento = utils.dataHora()
-                + "\n\nTOTAL DE BENS NA RELAÇÃO: "
-                + listaRelacao.length
-                + " ITENS\nTOTAL DE BENS LOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: "
-                + quantidadeForaRelacao
-                + " ITENS\nTOTAL DE BENS NÃO LOCALIZADOS FISICAMENTE: "
-                + j + " ITENS\nSOMA TOTAL (RELAÇÃO + FISICAMENTE LOCALIZADOS QUE NÃO CONSTA NA RELAÇÃO): "
-                + (listaRelacao.length + quantidadeForaRelacao)
-                + " ITENS\n\nLOCALIZADOS FISICAMENTE QUE NÃO CONSTA NA RELAÇÃO: "
-                + quantidadeForaRelacao + " ITENS\n\n"
-                + editText.getText().toString() + "\n"
-                + "BENS NÃO LOCALIZADOS FISICAMENTE: "
-                + j + " ITENS\n\n" + listaNaoAchados
-                + "\n" + "RELAÇÃO: "
-                + listaRelacao.length
-                + " ITENS\n\n" + textView.getText().toString()
-                + "\nANOTAÇÕES\n\n" + anotacoes;
-
-        exportarDados(activity, documento, ".txt");
+        exportarDados(activity, utils.organizarDadosRelatorio(activity, textView, editText), ".txt");
 
     }
 
@@ -142,5 +96,29 @@ public class Arquivos {
         String foraDaRelacaoReplace = editText.getText().toString().replace("-", ",").replace(":", ",");
 
         exportarDados(activity, foraDaRelacaoReplace, ".csv");
+    }
+
+    public void salvarTXT(Activity activity) {
+
+        caixaDialogo.simplesComView(activity,
+                "Enviar relatório",
+                "Nome do arquivo:",
+                "Exemplo: SEPAT Sala 06",
+                "Salvar",
+                "Cancelar",
+                InputType.TYPE_CLASS_TEXT,
+                false,
+                false,
+                i -> {
+
+                    Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TITLE, i + ".txt");
+
+                    activity.startActivityForResult(intent, SALVAR_ARQUIVO);
+
+                });
     }
 }

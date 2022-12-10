@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int LER_ARQUIVO = 1;
     private static final int CRIAR_JSON = 2;
+    private static final int SALVAR_ARQUIVO = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,9 +272,15 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
 
-            case R.id.gerarRelatorioCompleto:
+            case R.id.enviarRelatorioCompleto:
 
                 arquivos.relatorioCompleto(MainActivity.this, relacao, foraDaRelacao);
+
+                return true;
+
+            case R.id.criarRelatorioCompleto:
+
+                arquivos.salvarTXT(MainActivity.this);
 
                 return true;
 
@@ -520,6 +527,31 @@ public class MainActivity extends AppCompatActivity {
             } else {
 
                 Toast.makeText(getBaseContext(), "Não foi possível salvar o arquivo JSON", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (requestCode == SALVAR_ARQUIVO) {
+            if (resultCode == RESULT_OK) {
+                try {
+
+                    assert data != null;
+                    Uri uri = data.getData();
+
+                    OutputStream outputStream = getContentResolver().openOutputStream(uri);
+
+                    outputStream.write(utils.organizarDadosRelatorio(MainActivity.this, relacao, foraDaRelacao).getBytes());
+
+                    outputStream.close();
+
+                    Toast.makeText(getBaseContext(), "Arquivo TXT salvo", Toast.LENGTH_SHORT).show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+
+                Toast.makeText(getBaseContext(), "Não foi possível salvar o arquivo TXT", Toast.LENGTH_SHORT).show();
             }
         }
 
