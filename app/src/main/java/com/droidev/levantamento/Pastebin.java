@@ -418,11 +418,7 @@ public class Pastebin {
 
             activity.setTitle(nomeArquivo.toUpperCase());
 
-            String anotacoes = utils.recuperarDaMemoria(activity, "anotacoes.txt");
-
-            anotacoes = anotacoes + "\n\n" + jsonObject.getString("anotacoes");
-
-            utils.manterNaMemoria(activity, anotacoes, "anotacoes.txt");
+            utils.manterNaMemoria(activity, "", "anotacoes.txt");
 
             utils.manterNaMemoria(activity.getBaseContext(), nomeArquivo, "nome_arquivo.txt");
 

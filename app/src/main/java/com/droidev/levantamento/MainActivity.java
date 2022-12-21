@@ -132,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
                                 utils.jsonDataStream(MainActivity.this, relacao, foraDaRelacao, data);
                             }
 
+                            utils.manterNaMemoria(MainActivity.this, "", "anotacoes.txt");
+
                             contadorLinhas();
                         }
 
@@ -489,9 +491,13 @@ public class MainActivity extends AppCompatActivity {
 
                     utils.csvDataStream(MainActivity.this, relacao, foraDaRelacao, uri);
 
+                    utils.manterNaMemoria(MainActivity.this, "", "anotacoes.txt");
+
                 } else if (nomeArquivo.contains(".json")) {
 
                     utils.jsonDataStream(MainActivity.this, relacao, foraDaRelacao, uri);
+
+                    utils.manterNaMemoria(MainActivity.this, "", "anotacoes.txt");
                 } else {
 
                     Toast.makeText(getBaseContext(), "Arquivo inválido", Toast.LENGTH_SHORT).show();
