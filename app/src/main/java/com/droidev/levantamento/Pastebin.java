@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.documentfile.provider.DocumentFile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -291,38 +292,39 @@ public class Pastebin {
 
                     if (sb.toString().contains("nomeArquivo")) {
 
-                        try {
+                        caixaDialogo.simplesTresBotoes(activity, "Escolha uma das opções abaixo",
+                                "Abrir a relação no app.\n\nJuntar com a relação atual do app.\n\nCancelar essa ação.",
+                                "Abrir",
+                                "Cancelar",
+                                "Juntar",
+                                i -> {
+                                    if (i.equals("true")) {
 
-                            JSONObject jsonObject = new JSONObject(String.valueOf(sb));
+                                        lerJSONDaURL(activity, editText, textView1, sb);
 
-                            nomeArquivo = jsonObject.getString("nomeArquivo");
+                                        utils.contadorLinhas(editText, textView1, textView2, textView3);
 
-                            mainActivity.nomeArquivo = nomeArquivo;
+                                    }
 
-                            editText.setText(jsonObject.getString("foraRelacao"));
+                                    if (i.equals("neutral")) {
 
-                            textView1.setText(jsonObject.getString("relacao"));
 
-                            activity.setTitle(nomeArquivo.toUpperCase());
+                                        caixaDialogo.simples(activity, "Juntar relações",
+                                                "Essa ação irá juntar as duas relações, e não poderá ser desfeita. Deseja continuar?",
+                                                "Sim",
+                                                "Não", i1 -> {
 
-                            utils.contadorLinhas(editText, textView1, textView2, textView3);
+                                                    if (i1.equals("true")) {
 
-                            String anotacoes = utils.recuperarDaMemoria(activity, "anotacoes.txt");
+                                                        juntarRelacoesPastebin(activity, textView1, editText, String.valueOf(sb));
 
-                            anotacoes = anotacoes + "\n\n" + jsonObject.getString("anotacoes");
+                                                        utils.contadorLinhas(editText, textView1, textView2, textView3);
+                                                    }
 
-                            utils.manterNaMemoria(activity, anotacoes, "anotacoes.txt");
+                                                });
+                                    }
+                                });
 
-                            utils.manterNaMemoria(activity.getBaseContext(), nomeArquivo, "nome_arquivo.txt");
-
-                            utils.manterNaMemoria(activity.getBaseContext(), editText.getText().toString(), "fora_da_relacao.txt");
-
-                            utils.manterNaMemoria(activity.getBaseContext(), textView1.getText().toString(), "relacao.txt");
-
-                        } catch (JSONException e) {
-
-                            Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                        }
                     } else {
 
                         Toast.makeText(activity, "O arquivo não é compatível.", Toast.LENGTH_SHORT).show();
@@ -334,5 +336,103 @@ public class Pastebin {
                 activity.runOnUiThread(() -> Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show());
             }
         }).start();
+    }
+
+    public void juntarRelacoesPastebin(Activity activity, TextView textView, EditText editText, String data) {
+
+        try {
+
+            String anotacoes = utils.recuperarDaMemoria(activity, "anotacoes.txt");
+
+            StringBuilder novoForaDaRelacao = new StringBuilder();
+
+            String[] novaRelacao = textView.getText().toString().split("\n");
+
+            String[] foraDaRelacaoRecebida;
+
+            String[] relacaoRecebida;
+
+            JSONObject jsonObject = new JSONObject(data);
+
+            foraDaRelacaoRecebida = jsonObject.getString("foraRelacao").split("\n");
+
+            relacaoRecebida = jsonObject.getString("relacao").split("\n");
+
+            anotacoes = anotacoes + "\n\n" + jsonObject.getString("anotacoes");
+
+            if (!foraDaRelacaoRecebida[0].equals("")) {
+
+                for (String s : foraDaRelacaoRecebida) {
+
+                    String[] patrimonio = s.split(": ");
+
+                    if (!editText.getText().toString().contains(patrimonio[1])) {
+
+                        novoForaDaRelacao.append(s).append("\n");
+                    }
+                }
+            }
+
+            novoForaDaRelacao.append(editText.getText().toString());
+
+            for (int i = 0; i < relacaoRecebida.length; i++) {
+
+                if (!novaRelacao[i].contains(relacaoRecebida[i])) {
+
+                    novaRelacao[i] = novaRelacao[i].replace(novaRelacao[i], relacaoRecebida[i]);
+                }
+            }
+
+            StringBuilder novaRelacaoSB = new StringBuilder();
+
+            for (String s : novaRelacao) {
+
+                novaRelacaoSB.append(s).append("\n");
+            }
+
+            editText.setText(novoForaDaRelacao);
+            textView.setText(novaRelacaoSB);
+
+            utils.manterNaMemoria(activity, anotacoes, "anotacoes.txt");
+
+        } catch (Exception e) {
+
+            Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void lerJSONDaURL(Activity activity, EditText editText, TextView textView1, StringBuilder sb) {
+
+        try {
+
+            JSONObject jsonObject = new JSONObject(String.valueOf(sb));
+
+            nomeArquivo = jsonObject.getString("nomeArquivo");
+
+            mainActivity.nomeArquivo = nomeArquivo;
+
+            editText.setText(jsonObject.getString("foraRelacao"));
+
+            textView1.setText(jsonObject.getString("relacao"));
+
+            activity.setTitle(nomeArquivo.toUpperCase());
+
+            String anotacoes = utils.recuperarDaMemoria(activity, "anotacoes.txt");
+
+            anotacoes = anotacoes + "\n\n" + jsonObject.getString("anotacoes");
+
+            utils.manterNaMemoria(activity, anotacoes, "anotacoes.txt");
+
+            utils.manterNaMemoria(activity.getBaseContext(), nomeArquivo, "nome_arquivo.txt");
+
+            utils.manterNaMemoria(activity.getBaseContext(), editText.getText().toString(), "fora_da_relacao.txt");
+
+            utils.manterNaMemoria(activity.getBaseContext(), textView1.getText().toString(), "relacao.txt");
+
+        } catch (JSONException e) {
+
+            Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 }
