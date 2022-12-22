@@ -42,6 +42,7 @@
 
                 <data android:mimeType="application/json" />
                 <data android:mimeType="text/comma-separated-values" />
+                <data android:mimeType="text/csv" />
             </intent-filter>
         </activity>
 
