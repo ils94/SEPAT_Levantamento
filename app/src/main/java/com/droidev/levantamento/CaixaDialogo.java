@@ -41,7 +41,7 @@ public class CaixaDialogo {
         AlertDialog dialogo = new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle("Não encontrado")
-                .setMessage(patrimonio + " não foi encontrado na relação. Digite o nome do bem, e o código da U.L onde ele foi encontrado:")
+                .setMessage(patrimonio + " não foi encontrado na relação. Digite o nome do bem, e o número da sala / zona onde ele foi encontrado:")
                 .setPositiveButton("Ok", null)
                 .setNegativeButton("Cancelar", null)
                 .setView(lay)
