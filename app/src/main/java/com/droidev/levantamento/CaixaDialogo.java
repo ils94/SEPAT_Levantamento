@@ -17,7 +17,6 @@ import java.util.ArrayList;
 public class CaixaDialogo {
 
     private ArrayList<String> historicoBens = new ArrayList<>();
-    private ArrayList<String> historicoUL = new ArrayList<>();
 
     interface onButtonPressed {
 
@@ -29,7 +28,7 @@ public class CaixaDialogo {
         AutoCompleteTextView nome = new AutoCompleteTextView(context);
         nome.setHint("Nome do objeto");
         AutoCompleteTextView local = new AutoCompleteTextView(context);
-        local.setHint("Número da sala");
+        local.setHint("Número da sala / Zona");
 
         nome.setInputType(InputType.TYPE_CLASS_TEXT);
         local.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -51,13 +50,9 @@ public class CaixaDialogo {
         TinyDB tinyDB = new TinyDB(context);
 
         historicoBens = tinyDB.getListString("historicoBens");
-        historicoUL = tinyDB.getListString("historicoUL");
 
         ArrayAdapter<String> adapterBens = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, historicoBens);
         nome.setAdapter(adapterBens);
-
-        ArrayAdapter<String> adapterUL = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, historicoUL);
-        local.setAdapter(adapterUL);
 
         Button positiveButton = dialogo.getButton(AlertDialog.BUTTON_POSITIVE);
 
@@ -72,13 +67,6 @@ public class CaixaDialogo {
                     tinyDB.remove("historicoBens");
                     historicoBens.add(nome.getText().toString());
                     tinyDB.putListString("historicoBens", historicoBens);
-                }
-
-                if (!historicoUL.contains(local.getText().toString())) {
-
-                    tinyDB.remove("historicoUL");
-                    historicoUL.add(local.getText().toString());
-                    tinyDB.putListString("historicoUL", historicoUL);
                 }
 
                 dialogo.dismiss();
