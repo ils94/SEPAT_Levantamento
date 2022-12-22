@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
                                             if (i1.equals("true")) {
 
-                                                utils.juntarRelacoes(MainActivity.this, relacao, foraDaRelacao, data);
+                                                utils.juntarRelacoes(MainActivity.this, relacao, foraDaRelacao, String.valueOf(data), "Uri");
                                             }
 
                                         });

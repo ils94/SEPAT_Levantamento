@@ -316,7 +316,7 @@ public class Pastebin {
 
                                                     if (i1.equals("true")) {
 
-                                                        juntarRelacoesPastebin(activity, textView1, editText, String.valueOf(sb));
+                                                        utils.juntarRelacoes(activity, textView1, editText, String.valueOf(sb), "String");
 
                                                         utils.contadorLinhas(editText, textView1, textView2, textView3);
                                                     }
@@ -336,70 +336,6 @@ public class Pastebin {
                 activity.runOnUiThread(() -> Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show());
             }
         }).start();
-    }
-
-    public void juntarRelacoesPastebin(Activity activity, TextView textView, EditText editText, String data) {
-
-        try {
-
-            String anotacoes = utils.recuperarDaMemoria(activity, "anotacoes.txt");
-
-            StringBuilder novoForaDaRelacao = new StringBuilder();
-
-            String[] novaRelacao = textView.getText().toString().split("\n");
-
-            String[] foraDaRelacaoRecebida;
-
-            String[] relacaoRecebida;
-
-            JSONObject jsonObject = new JSONObject(data);
-
-            foraDaRelacaoRecebida = jsonObject.getString("foraRelacao").split("\n");
-
-            relacaoRecebida = jsonObject.getString("relacao").split("\n");
-
-            anotacoes = anotacoes + "\n\n" + jsonObject.getString("anotacoes");
-
-            if (!foraDaRelacaoRecebida[0].equals("")) {
-
-                for (String s : foraDaRelacaoRecebida) {
-
-                    String[] patrimonio = s.split(": ");
-
-                    if (!editText.getText().toString().contains(patrimonio[1])) {
-
-                        novoForaDaRelacao.append(s).append("\n");
-                    }
-                }
-            }
-
-            novoForaDaRelacao.append(editText.getText().toString());
-
-            for (int i = 0; i < relacaoRecebida.length; i++) {
-
-                if (!novaRelacao[i].contains(relacaoRecebida[i])) {
-
-                    novaRelacao[i] = novaRelacao[i].replace(novaRelacao[i], relacaoRecebida[i]);
-                }
-            }
-
-            StringBuilder novaRelacaoSB = new StringBuilder();
-
-            for (String s : novaRelacao) {
-
-                novaRelacaoSB.append(s).append("\n");
-            }
-
-            editText.setText(novoForaDaRelacao);
-            textView.setText(novaRelacaoSB);
-
-            utils.manterNaMemoria(activity, anotacoes, "anotacoes.txt");
-
-        } catch (Exception e) {
-
-            Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     public void lerJSONDaURL(Activity activity, EditText editText, TextView textView1, StringBuilder sb) {

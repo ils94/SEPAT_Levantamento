@@ -349,11 +349,13 @@ public class Utils {
         }
     }
 
-    public void juntarRelacoes(Activity activity, TextView textView, EditText editText, Uri data) {
+    public void juntarRelacoes(Activity activity, TextView textView, EditText editText, String dados, String tipo) {
 
         try {
 
             JSON json = new JSON();
+
+            JSONObject jsonObject = null;
 
             String anotacoes = recuperarDaMemoria(activity, "anotacoes.txt");
 
@@ -365,8 +367,15 @@ public class Utils {
 
             String[] relacaoRecebida;
 
-            JSONObject jsonObject = new JSONObject(String.valueOf(json.lerJSON(activity, data)));
+            if (tipo.equals("Uri")) {
 
+                jsonObject = new JSONObject(String.valueOf(json.lerJSON(activity, Uri.parse(dados))));
+            } else if (tipo.equals("String")) {
+
+                jsonObject = new JSONObject(String.valueOf(dados));
+            }
+
+            assert jsonObject != null;
             foraDaRelacaoRecebida = jsonObject.getString("foraRelacao").split("\n");
 
             relacaoRecebida = jsonObject.getString("relacao").split("\n");
