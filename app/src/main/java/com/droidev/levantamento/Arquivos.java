@@ -34,18 +34,7 @@ public class Arquivos {
                 false,
                 i -> {
 
-                    String[] informacao;
-
-                    informacao = dados.split("\n");
-
-                    StringBuilder data = new StringBuilder();
-
-                    for (String dado : informacao) {
-
-                        data.append(dado).append("\n");
-                    }
-
-                    enviarArquivo(activity, i, data.toString(), extensao);
+                    enviarArquivo(activity, i, dados, extensao);
                 });
     }
 
@@ -90,9 +79,9 @@ public class Arquivos {
 
     }
 
-    public void relatorioCompletoCSV(TextView textView, EditText editText) {
+    public void relatorioCompletoCSV(Activity activity, TextView textView, EditText editText) {
 
-        exportarDados(null, utils.organizarDadosRelatorioCSV(textView, editText), ".csv");
+        exportarDados(activity, utils.organizarDadosRelatorioCSV(textView, editText), ".csv");
 
     }
 

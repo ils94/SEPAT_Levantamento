@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.enviarRelatorioCompletoCSV:
 
-                arquivos.relatorioCompletoCSV(relacao, foraDaRelacao);
+                arquivos.relatorioCompletoCSV(MainActivity.this, relacao, foraDaRelacao);
 
                 return true;
 
@@ -538,7 +538,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Arquivo JSON salvo", Toast.LENGTH_SHORT).show();
 
                 } catch (IOException e) {
-                    e.printStackTrace();
                     Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -563,7 +562,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Arquivo TXT salvo", Toast.LENGTH_SHORT).show();
 
                 } catch (IOException e) {
-                    e.printStackTrace();
                     Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -586,7 +584,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Arquivo CSV salvo", Toast.LENGTH_SHORT).show();
 
                 } catch (IOException e) {
-                    e.printStackTrace();
                     Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
                 }
             } else {

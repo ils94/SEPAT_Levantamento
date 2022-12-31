@@ -490,9 +490,9 @@ public class Utils {
             }
         }
 
-        String documento = "Bens que constao na relação mas nao estao localizados fiscamente\n\n" +
+        String documento = "Bens que constao na relacao mas nao foram localizados fiscamente na unidade\n\n" +
                 listaNaoAchados + "\n\n" +
-                "Bens que nao constao na relaçao mas foram localizados fisicamente\n\n" +
+                "Bens que nao constao na relacao mas foram localizados fisicamente na unidade\n\n" +
                 listaForaRelacao;
 
         return documento.replace(":", ",").replace("-", ",");
