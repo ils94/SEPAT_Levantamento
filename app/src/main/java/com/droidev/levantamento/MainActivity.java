@@ -274,15 +274,27 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
 
-            case R.id.enviarRelatorioCompleto:
+            case R.id.enviarRelatorioCompletoTXT:
 
-                arquivos.relatorioCompleto(MainActivity.this, relacao, foraDaRelacao);
+                arquivos.relatorioCompletoTXT(MainActivity.this, relacao, foraDaRelacao);
 
                 return true;
 
-            case R.id.criarRelatorioCompleto:
+            case R.id.enviarRelatorioCompletoCSV:
 
-                arquivos.salvarTXT(MainActivity.this);
+                arquivos.relatorioCompletoCSV(relacao, foraDaRelacao);
+
+                return true;
+
+            case R.id.criarRelatorioCompletoTXT:
+
+                arquivos.salvarArquivo(MainActivity.this, ".txt");
+
+                return true;
+
+            case R.id.criarRelatorioCompletoCSV:
+
+                arquivos.salvarArquivo(MainActivity.this, ".csv");
 
                 return true;
 
@@ -545,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
 
                     OutputStream outputStream = getContentResolver().openOutputStream(uri);
 
-                    outputStream.write(utils.organizarDadosRelatorio(MainActivity.this, relacao, foraDaRelacao).getBytes());
+                    outputStream.write(utils.organizarDadosRelatorioTXT(MainActivity.this, relacao, foraDaRelacao).getBytes());
 
                     outputStream.close();
 

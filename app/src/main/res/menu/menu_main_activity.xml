@@ -36,11 +36,39 @@
 
                     <item
                         android:id="@+id/enviarRelatorioCompleto"
-                        android:title="Enviar Relatório Completo" />
+                        android:title="Enviar Relatório Completo...">
+
+                        <menu>
+
+                            <item
+                                android:id="@+id/enviarRelatorioCompletoTXT"
+                                android:title="Enviar Relatório Completo TXT" />
+
+                            <item
+                                android:id="@+id/enviarRelatorioCompletoCSV"
+                                android:title="Enviar Relatório Completo CSV" />
+
+                        </menu>
+
+                    </item>
 
                     <item
                         android:id="@+id/criarRelatorioCompleto"
-                        android:title="Criar Relatório Completo" />
+                        android:title="Criar Relatório Completo...">
+
+                        <menu>
+
+                            <item
+                                android:id="@+id/criarRelatorioCompletoTXT"
+                                android:title="Criar Relatório Completo TXT" />
+
+                            <item
+                                android:id="@+id/criarRelatorioCompletoCSV"
+                                android:title="Criar Relatório Completo CSV" />
+
+                        </menu>
+
+                    </item>
 
                 </menu>
 

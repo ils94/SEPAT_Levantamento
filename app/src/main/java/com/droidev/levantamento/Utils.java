@@ -423,7 +423,7 @@ public class Utils {
         }
     }
 
-    public String organizarDadosRelatorio(Activity activity, TextView textView, EditText editText) {
+    public String organizarDadosRelatorioTXT(Activity activity, TextView textView, EditText editText) {
 
         String anotacoes = recuperarDaMemoria(activity, "anotacoes.txt");
 
@@ -471,6 +471,29 @@ public class Utils {
                 + listaRelacao.length
                 + " ITENS\n\n" + textView.getText().toString()
                 + "\nANOTAÇÕES\n\n" + anotacoes;
+
+        return documento;
+    }
+
+    public String organizarDadosRelatorioCSV(TextView textView, EditText editText) {
+
+        String[] separado = textView.getText().toString().split("\n");
+
+        StringBuilder listaNaoAchados = new StringBuilder();
+
+        String listaForaRelacao = editText.getText().toString().replace("-", ",").replace(":", ",");
+
+        for (String s : separado) {
+            if (!s.contains("[OK]")) {
+
+                listaNaoAchados.append(s.replace(":", ",")).append("\n");
+            }
+        }
+
+        String documento = "Bens que constão na relação mas não estão localizados fiscamente\n\n" +
+                listaNaoAchados.toString() + "\n\n" +
+                "Bens que não constão na relação mas foram localizados fisicamente\n\n" +
+                listaForaRelacao;
 
         return documento;
     }

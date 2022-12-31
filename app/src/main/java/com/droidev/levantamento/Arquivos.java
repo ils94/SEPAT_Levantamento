@@ -85,9 +85,15 @@ public class Arquivos {
         }
     }
 
-    public void relatorioCompleto(Activity activity, TextView textView, EditText editText) {
+    public void relatorioCompletoTXT(Activity activity, TextView textView, EditText editText) {
 
-        exportarDados(activity, utils.organizarDadosRelatorio(activity, textView, editText), ".txt");
+        exportarDados(activity, utils.organizarDadosRelatorioTXT(activity, textView, editText), ".txt");
+
+    }
+
+    public void relatorioCompletoCSV(TextView textView, EditText editText) {
+
+        exportarDados(null, utils.organizarDadosRelatorioCSV(textView, editText), ".csv");
 
     }
 
@@ -98,7 +104,7 @@ public class Arquivos {
         exportarDados(activity, foraDaRelacaoReplace, ".csv");
     }
 
-    public void salvarTXT(Activity activity) {
+    public void salvarArquivo(Activity activity, String extensao) {
 
         caixaDialogo.simplesComView(activity,
                 "Enviar relatório",
@@ -114,8 +120,8 @@ public class Arquivos {
                     Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
 
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TITLE, i + ".txt");
+                    intent.setType("text/csv");
+                    intent.putExtra(Intent.EXTRA_TITLE, i + extensao);
 
                     activity.startActivityForResult(intent, SALVAR_ARQUIVO);
 
