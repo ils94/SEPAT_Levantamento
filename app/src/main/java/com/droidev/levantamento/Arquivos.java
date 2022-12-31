@@ -20,7 +20,6 @@ public class Arquivos {
     Utils utils = new Utils();
 
     private static final int LER_ARQUIVO = 1;
-    private static final int SALVAR_ARQUIVO = 3;
 
     private void exportarDados(Activity activity, String dados, String extensao) {
 
@@ -104,10 +103,10 @@ public class Arquivos {
         exportarDados(activity, foraDaRelacaoReplace, ".csv");
     }
 
-    public void salvarArquivo(Activity activity, String extensao) {
+    public void salvarArquivo(Activity activity, String extensao, int arquivo) {
 
         caixaDialogo.simplesComView(activity,
-                "Enviar relatório",
+                "Salvar relatório",
                 "Nome do arquivo:",
                 "Exemplo: SEPAT Sala 06",
                 "Salvar",
@@ -123,7 +122,7 @@ public class Arquivos {
                     intent.setType("text/csv");
                     intent.putExtra(Intent.EXTRA_TITLE, i + extensao);
 
-                    activity.startActivityForResult(intent, SALVAR_ARQUIVO);
+                    activity.startActivityForResult(intent, arquivo);
 
                 });
     }

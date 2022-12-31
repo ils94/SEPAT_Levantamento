@@ -481,20 +481,20 @@ public class Utils {
 
         StringBuilder listaNaoAchados = new StringBuilder();
 
-        String listaForaRelacao = editText.getText().toString().replace("-", ",").replace(":", ",");
+        String listaForaRelacao = editText.getText().toString();
 
         for (String s : separado) {
             if (!s.contains("[OK]")) {
 
-                listaNaoAchados.append(s.replace(":", ",")).append("\n");
+                listaNaoAchados.append(s).append("\n");
             }
         }
 
-        String documento = "Bens que constão na relação mas não estão localizados fiscamente\n\n" +
-                listaNaoAchados.toString() + "\n\n" +
-                "Bens que não constão na relação mas foram localizados fisicamente\n\n" +
+        String documento = "Bens que constao na relação mas nao estao localizados fiscamente\n\n" +
+                listaNaoAchados + "\n\n" +
+                "Bens que nao constao na relaçao mas foram localizados fisicamente\n\n" +
                 listaForaRelacao;
 
-        return documento;
+        return documento.replace(":", ",").replace("-", ",");
     }
 }

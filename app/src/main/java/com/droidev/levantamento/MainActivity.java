@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int LER_ARQUIVO = 1;
     private static final int CRIAR_JSON = 2;
-    private static final int SALVAR_ARQUIVO = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,13 +287,13 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.criarRelatorioCompletoTXT:
 
-                arquivos.salvarArquivo(MainActivity.this, ".txt");
+                arquivos.salvarArquivo(MainActivity.this, ".txt", 3);
 
                 return true;
 
             case R.id.criarRelatorioCompletoCSV:
 
-                arquivos.salvarArquivo(MainActivity.this, ".csv");
+                arquivos.salvarArquivo(MainActivity.this, ".csv", 4);
 
                 return true;
 
@@ -548,7 +547,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (requestCode == SALVAR_ARQUIVO) {
+        if (requestCode == 3) {
             if (resultCode == RESULT_OK) {
                 try {
 
@@ -571,6 +570,30 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(getBaseContext(), "Não foi possível salvar o arquivo TXT", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == 4) {
+            if (resultCode == RESULT_OK) {
+                try {
+
+                    assert data != null;
+                    Uri uri = data.getData();
+
+                    OutputStream outputStream = getContentResolver().openOutputStream(uri);
+
+                    outputStream.write(utils.organizarDadosRelatorioCSV(relacao, foraDaRelacao).getBytes());
+
+                    outputStream.close();
+
+                    Toast.makeText(getBaseContext(), "Arquivo CSV salvo", Toast.LENGTH_SHORT).show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+
+                Toast.makeText(getBaseContext(), "Não foi possível salvar o arquivo CSV", Toast.LENGTH_SHORT).show();
+            }
+
         }
 
         manterNaMemoria();
