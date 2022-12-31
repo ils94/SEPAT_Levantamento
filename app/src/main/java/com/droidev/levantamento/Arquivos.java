@@ -63,12 +63,11 @@ public class Arquivos {
     public void abrirArquivo(Activity activity) {
         try {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.setType("text/comma-separated-values|application/json");
-            String[] mimetypes = {"text/comma-separated-values", "application/json"};
+            intent.setType("text/comma-separated-values|application/csv/json");
+            String[] mimetypes = {"text/comma-separated-values", "csv", "application/json"};
             intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
             activity.startActivityForResult(Intent.createChooser(intent, "Abrir relação"), LER_ARQUIVO);
         } catch (Exception e) {
-            e.printStackTrace();
             Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -108,7 +107,7 @@ public class Arquivos {
                     Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
 
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("text/csv");
+                    intent.setType("text/plain|text/csv|text/comma-separated-values");
                     intent.putExtra(Intent.EXTRA_TITLE, i + extensao);
 
                     activity.startActivityForResult(intent, arquivo);

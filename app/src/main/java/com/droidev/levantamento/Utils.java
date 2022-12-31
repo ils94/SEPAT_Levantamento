@@ -307,7 +307,7 @@ public class Utils {
 
             editText.setText(jsonObject.getString("foraRelacao"));
 
-            textView.setText(jsonObject.getString("relacao"));
+            textView.setText(jsonObject.getString("relacao").replace("-", ""));
 
             nomeArquivo = nomeArquivo.replace(".json", "");
 
@@ -316,7 +316,6 @@ public class Utils {
             manterNaMemoria(activity, jsonObject.getString("anotacoes"), "anotacoes.txt");
 
         } catch (JSONException e) {
-            e.printStackTrace();
             Toast.makeText(activity.getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
         }
 
@@ -337,7 +336,7 @@ public class Utils {
 
             while ((mLine = r.readLine()) != null) {
                 if (!mLine.equals("")) {
-                    relacao.append(mLine.toUpperCase().replace(",", ": ").replace("  ", " ")).append("\n");
+                    relacao.append(mLine.toUpperCase().replace(",", ": ").replace("  ", " ").replace("-", "")).append("\n");
                 }
             }
 
@@ -491,8 +490,10 @@ public class Utils {
         }
 
         String documento = "Bens que constao na relacao mas nao foram localizados fiscamente na unidade\n\n" +
+                "bem,patrimonio\n" +
                 listaNaoAchados + "\n\n" +
                 "Bens que nao constao na relacao mas foram localizados fisicamente na unidade\n\n" +
+                "bem,sala/zona,patrimonio\n" +
                 listaForaRelacao;
 
         return documento.replace(":", ",").replace("-", ",");
